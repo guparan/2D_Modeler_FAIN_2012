@@ -1,4 +1,5 @@
-#include "modeleurlib.h"
+#include "modeleur.h"
+#include "evenement.h"
 
 static int TAILLE_PIXEL=10;
 static int reshape_deja_lance=0;
@@ -142,10 +143,10 @@ static void souris(int b,int s,int x,int y)
 	}
     case GLUT_MIDDLE_BUTTON:
 	{
-		action_bouton_milieu(x2,y2,s==GLUT_UP);
+		evenement_boutonMilieu(x2,y2,s==GLUT_UP);
 		break;
 	}
-	case GLUT_RIGHT_BUTTON:	action_bouton_droit(x2,y2,s==GLUT_UP);    break;
+	case GLUT_RIGHT_BUTTON:	evenement_boutonDroit(x2,y2,s==GLUT_UP);    break;
   }
   /*glutPostRedisplay();*/
 	glutReportErrors();
@@ -166,7 +167,7 @@ int main_Modeleurlib(int nargs, char **args)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutMouseFunc(souris);
-	glutKeyboardFunc(action_clavier);
+	glutKeyboardFunc(evenement_clavier);
 
 	glPointSize(TAILLE_PIXEL);
 	glutMainLoop();
