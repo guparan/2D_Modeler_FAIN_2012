@@ -1,4 +1,4 @@
-#include "modeleur.h"
+#include "primitives.h"
 #include "evenement.h"
 
 static int TAILLE_PIXEL=10;
