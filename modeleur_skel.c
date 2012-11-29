@@ -60,13 +60,15 @@ void tracer_segment(int xA,int yA,int xB,int yB, int octant)
 
 
 void tracer_segment_vertical(int xA, int yA, int yB) {
+    int y;
+
     if (yA<yB) {
-        for (int y = yA; y < yB+1; y++) {
+        for (y = yA; y < yB+1; y++) {
             change_point(xA, y, BLANC);
         }
     }
     else {
-        for (int y = yA; y > yB-1; y--) {
+        for (y = yA; y > yB-1; y--) {
             change_point(xA, y, BLANC);
         }
     }
@@ -74,13 +76,15 @@ void tracer_segment_vertical(int xA, int yA, int yB) {
 
 
 void tracer_segment_horizontal(int yA, int xA, int xB) {
+    int x;
+
     if (xA<xB) {
-        for (int x = xA; x < xB+1; x++) {
+        for (x = xA; x < xB+1; x++) {
             change_point(x, yA, BLANC);
         }
     }
     else {
-        for (int x = xA; x > xB-1; x--) {
+        for (x = xA; x > xB-1; x--) {
             change_point(x, yA, BLANC);
         }
     }
