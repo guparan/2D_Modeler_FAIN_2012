@@ -26,6 +26,10 @@ void change_point(int x, int y, couleur c);
 /* Renvoie la couleur d'un pixel */
 couleur val_point(int x, int y);
 
+
+void remplir(int xgraine, int ygraine);
+
+
 /* Efface toute la fenetre */
 void efface_tout(void);
 
@@ -62,10 +66,10 @@ void action_clavier(unsigned char touche, int x,int y);
 
 
 /* Détermine dans quel octant le segment se trouve et demande le tracé à la fonction tracer_segment */
-void segment(int xA,int yA,int xB,int yB);
+void segment_segmentBresenham(int xA,int yA,int xB,int yB);
 /* Trace un segment dans un octant donné */
-void tracer_segment(int xA,int yA,int xB,int yB, int octant);
-void tracer_segment_vertical(int xA, int yA, int yB);
-void tracer_segment_horizontal(int yA, int xA, int xB);
+void segment_tracerSegment(int xA,int yA,int xB,int yB, int octant);
+void segment_tracerSegmentVertical(int xA, int yA, int yB);
+void segment_tracerSegmentHorizontal(int yA, int xA, int xB);
 
 #endif
