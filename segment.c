@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "modeleur.h"
+#include "primitives.h"
 #include "segment.h"
 
 
@@ -20,11 +20,11 @@ void segment_tracerSegment(int xA,int yA,int xB,int yB, int octant)
         {
             case 1 : change_point(x, y, BLANC); break;
             case 2 : change_point(y, x, BLANC); break;
-            case 3 : change_point(y, -x, BLANC); break;
+            case 3 : change_point(-y, x, BLANC); break;
             case 4 : change_point(-x, y, BLANC); break;
             case 5 : change_point(-x, -y, BLANC); break;
             case 6 : change_point(-y, -x, BLANC); break;
-            case 7 : change_point(-y, x, BLANC); break;
+            case 7 : change_point(y, -x, BLANC); break;
             case 8 : change_point(x, -y, BLANC); break;
         }
         
@@ -99,7 +99,7 @@ void segment_segmentBresenham(int xA,int yA,int xB,int yB)
     }
     else if(dx < 0 && dy > 0 && abs(dx) < dy) /* 3eme octant /!\ */
     {
-        segment_tracerSegment(-yB, xB, -yA, xA, 3);
+        segment_tracerSegment( yA, -xA,yB, -xB, 3);
     }
     else if(dx < 0 && dy > 0 && abs(dx) > dy) // 4eme octant
     {
@@ -115,7 +115,7 @@ void segment_segmentBresenham(int xA,int yA,int xB,int yB)
     }
     else if(dx > 0 && dy < 0 && dx < abs(dy)) /* 7eme octant /!\ */
     {
-        segment_tracerSegment(yB, -xB, yA, -xA, 7);
+        segment_tracerSegment( -yA, xA, -yB, xB, 7);
     }
     else if(dx > 0 && dy < 0 && dx > abs(dy)) // 8eme octant
     {

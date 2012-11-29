@@ -1,18 +1,12 @@
 
 #include <stdio.h>
-#include "modeleur.h"
+#include "primitives.h"
 #include "polygone.h"
 #include "segment.h"
 #include "evenement.h"
 
 
 void evenement_boutonDroit(int x, int y, int fin_click)
-{
-    if(fin_click) polygone_remplirGraine(x, x);
-}
-
-
-void evenement_boutonMilieu(int x, int y, int fin_click)
 {
     static int x0,y0;
     if(fin_click) printf("fin"); else printf("debut");
@@ -23,6 +17,12 @@ void evenement_boutonMilieu(int x, int y, int fin_click)
     else {
         x0=x; y0=y;
     }
+}
+
+
+void evenement_boutonMilieu(int x, int y, int fin_click)
+{
+    if(fin_click) polygone_remplirGraine(x, x);
 }
 
 
