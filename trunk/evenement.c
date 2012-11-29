@@ -1,22 +1,18 @@
-//
-//  actions.c
-//  FAIN-TP1
-//
-//  Created by Lucas Saurel on 29/11/12.
-//  Copyright (c) 2012 Lucas Saurel. All rights reserved.
-//
 
 #include <stdio.h>
-#include "modeleurlib.h"
+#include "modeleur.h"
+#include "polygone.h"
+#include "segment.h"
+#include "evenement.h"
 
 
-void action_bouton_droit(int x, int y, int fin_click)
+void evenement_boutonDroit(int x, int y, int fin_click)
 {
-    if(fin_click) remplir(x,y);
+    if(fin_click) polygone_remplirGraine(x, x);
 }
 
 
-void action_bouton_milieu(int x, int y, int fin_click)
+void evenement_boutonMilieu(int x, int y, int fin_click)
 {
     static int x0,y0;
     if(fin_click) printf("fin"); else printf("debut");
@@ -30,7 +26,7 @@ void action_bouton_milieu(int x, int y, int fin_click)
 }
 
 
-void action_clavier(unsigned char touche, int x, int y)
+void evenement_clavier(unsigned char touche, int x, int y)
 {
     printf("touche %c appuyee\n", touche);
 }

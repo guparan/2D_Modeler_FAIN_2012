@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "modeleurlib.h"
+#include "modeleur.h"
+#include "segment.h"
 
 
 void segment_tracerSegment(int xA,int yA,int xB,int yB, int octant)
