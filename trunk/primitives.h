@@ -14,8 +14,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAXX 1024
-#define MAXY 768
+#define MAXX 1920
+#define MAXY 1080
+
 
 /* Noms des couleurs */
 typedef enum {NOIR,BLANC,ROUGE,VERT,BLEU,JAUNE,MAGENTA,CYAN,GRIS} Couleur;
@@ -25,6 +26,8 @@ void change_point(int x, int y, Couleur c);
 
 /* Renvoie la couleur d'un pixel */
 Couleur val_point(int x, int y);
+
+
 
 
 /* Efface toute la fenetre */

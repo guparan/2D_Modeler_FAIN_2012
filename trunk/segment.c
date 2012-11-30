@@ -4,17 +4,26 @@
 
 
 
-void segment_testSegment()
+void segment_testSegment(Point *points)
 {
-    Point A = point(10,20);
-    Point B = point(40, 50);
+    puts("coucou");
+    Point precedent;
+    int i=0;
 
-    segment_segmentBresenham(A, B, BLANC);
+    if(!points) return;
+
+    for(i=0 ; i<9 ; i++)
+    {
+        precedent.x = points[i].x;
+        precedent.y = points[i].y;
+
+        segment_segmentBresenham(precedent, points[i], BLANC);
+    }
 }
 
 void segment_tracerSegment(Point A, Point B, int octant, Couleur couleur)
 {
-    printf("Segment dans l'octant %d rapporté au 1er : (%d,%d) ; (%d,%d)\n", octant, A.x, A.y, B.x, B.y);
+    //printf("Segment dans l'octant %d rapporté au 1er : (%d,%d) ; (%d,%d)\n", octant, A.x, A.y, B.x, B.y);
     int dx = B.x - A.x;
     int dy = B.y - A.y;
     int incr1 = 2*dy;
@@ -87,7 +96,7 @@ void segment_segmentBresenham(Point A, Point B, Couleur couleur)
     int dx = B.x - A.x;
     int dy = B.y - A.y;
     
-    printf("Points cliqués pour le segment : (%d, %d), (%d,%d)\n", A.x, A.y, B.x, B.y);
+    printf("Calcul de Bresenham pour le segment : (%d, %d), (%d,%d)\n", A.x, A.y, B.x, B.y);
 
     if (dx == 0)
     {
