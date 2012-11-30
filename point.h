@@ -9,5 +9,6 @@ typedef struct point
 
 
 Point point(int x, int y);
+int point_egaux(Point p1, Point p2);
 
 #endif
