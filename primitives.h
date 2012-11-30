@@ -1,6 +1,6 @@
 
-#ifndef MODELEUR_H
-#define MODELEUR_H
+#ifndef PRIMITIVES_H
+#define PRIMITIVES_H
 
 #include <stdio.h>
 #include <math.h>	

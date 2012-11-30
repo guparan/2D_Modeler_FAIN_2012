@@ -1,13 +1,6 @@
-//
-//  evenement.h
-//  FAIN-TP1
-//
-//  Created by Lucas Saurel on 29/11/12.
-//  Copyright (c) 2012 Lucas Saurel. All rights reserved.
-//
 
-#ifndef FAIN_TP1_evenement_h
-#define FAIN_TP1_evenement_h
+#ifndef EVENEMENT_H
+#define EVENEMENT_H
 
 /* Fonction executee deux fois lorsque que l'on appuie (fin_click=0)
  ou relache (fin_click=1) le bouton du milieu de la souris
