@@ -157,7 +157,7 @@ static void souris(int b,int s,int x,int y)
 //-----------------------------------------------------------------
 // Les initialisations de glut
 
-int main_Modeleurlib(int nargs, char **args)
+int initPrimitives(int nargs, char **args)
 {
 	glutInit(&nargs,args);
 	glutInitDisplayMode(GLUT_RGB|GLUT_SINGLE);

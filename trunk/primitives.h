@@ -43,7 +43,7 @@ int largeur_ecran(void);
 int hauteur_ecran(void);
 
 /* A mettre dans la fonction main */
-int main_Modeleurlib(int nargs, char **args);
+int initPrimitives(int nargs, char **args);
 
 
 #endif

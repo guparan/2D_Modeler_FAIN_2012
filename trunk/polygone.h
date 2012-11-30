@@ -1,15 +1,11 @@
-//
-//  polygone.h
-//  FAIN-TP1
-//
-//  Created by Lucas Saurel on 29/11/12.
-//  Copyright (c) 2012 Lucas Saurel. All rights reserved.
-//
+#include "primitives.h"
+#include "point.h"
 
 #ifndef FAIN_TP1_polygone_h
 #define FAIN_TP1_polygone_h
 
-void polygone_remplirGraine(int xgraine, int ygraine);
+void polygone_remplirGraine(Point pgraine);
+void polygone_remplirScanline(Point pmin, Point pmax);
 
 
 #endif
