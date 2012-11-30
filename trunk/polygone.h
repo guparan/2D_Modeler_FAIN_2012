@@ -1,8 +1,8 @@
 #include "primitives.h"
 #include "point.h"
 
-#ifndef FAIN_TP1_polygone_h
-#define FAIN_TP1_polygone_h
+#ifndef POLYGONE_H
+#define POLYGONE_H
 
 typedef struct {
     Point sommets[64];
