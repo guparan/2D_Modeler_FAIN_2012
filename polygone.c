@@ -5,7 +5,7 @@
 
 void polygone_remplirGraine(int xgraine, int ygraine)
 {
-    couleur c = val_point(xgraine, ygraine);
+    Couleur c = val_point(xgraine, ygraine);
     
     if(c == BLANC || c == ROUGE ) return;
     
