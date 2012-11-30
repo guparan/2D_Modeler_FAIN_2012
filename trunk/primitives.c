@@ -4,7 +4,7 @@
 static int TAILLE_PIXEL=10;
 static int reshape_deja_lance=0;
 
-static couleur image[MAXX][MAXY];
+static Couleur image[MAXX][MAXY];
 static int Width,Height;
 
 static struct{	unsigned char r,g,b;} couleurs[]=
@@ -58,7 +58,7 @@ void change_taille_pixel(int t)
 // procedure lancee pour afficher l'image. En l'occurrence, elle
 // affiche le contenu du tableau image[][].
 
-static couleur current_color=-1;
+static Couleur current_color=-1;
 
 static void display(void)
 {
@@ -73,7 +73,7 @@ static void display(void)
 	for(x=0;x<w;x++)
 		for(y=0;y<h;y++)
 		{
-			couleur c=image[x][y];
+            Couleur c=image[x][y];
 			if(c)
 			{
 				if(c!=current_color)
@@ -94,7 +94,7 @@ static void display(void)
 //-----------------------------------------------------------------
 // Change la couleur du point de coordonnées (x,y)
 
-void change_point(int x, int y, couleur c)
+void change_point(int x, int y, Couleur c)
 {
 	if(x<0 || y<0 || x>=MAXX || y>=MAXY) return;
 
@@ -115,7 +115,7 @@ void change_point(int x, int y, couleur c)
 //-----------------------------------------------------------------
 // C'est la pipette : retourne la couleur du point de coord (x,y).
 
-couleur val_point(int x, int y)
+Couleur val_point(int x, int y)
 {
   if(x<0 || y<0 || x>=MAXX || y>=MAXY) return NOIR;
   return image[x][y];
@@ -202,7 +202,7 @@ void efface_tout(void)
 {
 	int x;
 	for(x=0;x<MAXX;x++)
-		memset(&image[x][0],0,MAXY*sizeof(couleur));
+        memset(&image[x][0],0,MAXY*sizeof(Couleur));
 
 	glClear(GL_COLOR_BUFFER_BIT); /* au cas ou on fait des calculs apres */
 	glutPostRedisplay();

@@ -18,13 +18,13 @@
 #define MAXY 768
 
 /* Noms des couleurs */
-typedef enum {NOIR,BLANC,ROUGE,VERT,BLEU,JAUNE,MAGENTA,CYAN,GRIS} couleur;
+typedef enum {NOIR,BLANC,ROUGE,VERT,BLEU,JAUNE,MAGENTA,CYAN,GRIS} Couleur;
 
 /* Change la couleur d'un pixel */
-void change_point(int x, int y, couleur c);
+void change_point(int x, int y, Couleur c);
 
 /* Renvoie la couleur d'un pixel */
-couleur val_point(int x, int y);
+Couleur val_point(int x, int y);
 
 
 /* Efface toute la fenetre */

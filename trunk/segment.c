@@ -2,20 +2,19 @@
 #include "primitives.h"
 #include "segment.h"
 
-
-void segment_tracerSegment(int xA,int yA,int xB,int yB, int octant, couleur couleur)
+void segment_tracerSegment(Point A, Point B, int octant, Couleur couleur)
 {
-    printf("Segment dans l'octant %d rapporté au 1er : (%d,%d) ; (%d,%d)\n", octant, xA, yA, xB, yB);
-    int dx = xB - xA;
-    int dy = yB - yA;
+    printf("Segment dans l'octant %d rapporté au 1er : (%d,%d) ; (%d,%d)\n", octant, point(A.x, A.y), point(B.x, B.y));
+    int dx = B.x - A.x;
+    int dy = B.y - A.y;
     int incr1 = 2*dy;
     int incr2 = 2*(dy-dx);
-    int x = xA, y = yA;
+    int x = A.x, y = A.y;
     int d = 2*dy-dx;
 
-    while(x < xB+1)
+    while(x < B.x+1)
     {
-//        printf("Boucle segment_tracerSegment (xB==%d) : x==%d\n", xB, x);
+//        printf("Boucle segment_tracerSegment (B.x==%d) : x==%d\n", B.x, x);
         switch (octant)
         {
             case 1 : change_point(x, y, couleur); break;
@@ -27,7 +26,7 @@ void segment_tracerSegment(int xA,int yA,int xB,int yB, int octant, couleur coul
             case 7 : change_point(y, -x, couleur); break;
             case 8 : change_point(x, -y, couleur); break;
         }
-        
+
         x++;
         if(d < 0)
         {
@@ -41,84 +40,83 @@ void segment_tracerSegment(int xA,int yA,int xB,int yB, int octant, couleur coul
     }
 }
 
-
-void segment_tracerSegmentVertical(int xA, int yA, int yB, couleur couleur) {
+void segment_tracerSegmentVertical(Point A, Point B, Couleur couleur) {
     int y;
 
-    if (yA<yB) {
-        for (y = yA; y < yB+1; y++) {
-            change_point(xA, y, couleur);
+    if (A.y<B.y) {
+        for (y = A.y; y < B.y+1; y++) {
+            change_point(A.x, y, couleur);
         }
     }
     else {
-        for (y = yA; y > yB-1; y--) {
-            change_point(xA, y, couleur);
+        for (y = A.y; y > B.y-1; y--) {
+            change_point(A.x, y, couleur);
         }
     }
 }
 
 
-void segment_tracerSegmentHorizontal(int yA, int xA, int xB, couleur couleur) {
+void segment_tracerSegmentHorizontal(Point A, Point B, Couleur couleur) {
     int x;
 
-    if (xA<xB) {
-        for (x = xA; x < xB+1; x++) {
-            change_point(x, yA, couleur);
+    if (A.x<B.x) {
+        for (x = A.x; x < B.x+1; x++) {
+            change_point(x, A.y, couleur);
         }
     }
     else {
-        for (x = xA; x > xB-1; x--) {
-            change_point(x, yA, couleur);
+        for (x = A.x; x > B.x-1; x--) {
+            change_point(x, A.y, couleur);
         }
     }
 }
 
 
-void segment_segmentBresenham(int xA,int yA,int xB,int yB, couleur couleur)
+void segment_segmentBresenham(Point A, Point B, Couleur couleur)
 {
-    int dx = xB - xA;
-    int dy = yB - yA;
+    int dx = B.x - A.x;
+    int dy = B.y - A.y;
     
-    printf("Points cliqués pour le segment : (%d, %d), (%d,%d)\n", xA, yA, xB, yB);
+    printf("Points cliqués pour le segment : (%d, %d), (%d,%d)\n", point(A.x, A.y), point(B.x, B.y));
 
     if (dx == 0)
     {
-        segment_tracerSegmentVertical(xA, yA, yB, couleur);
+        segment_tracerSegmentVertical(point(A.x, A.y), point(0, B.y), couleur);
     }
     else if (dy == 0)
     {
-        segment_tracerSegmentHorizontal(yA, xA, xB, couleur);
+        segment_tracerSegmentHorizontal(point(A.y, A.x), point(B.x, 0), couleur);
     }
     else if(dx > 0 && dy > 0 && dx > dy) // 1er octant
     {
-        segment_tracerSegment(xA, yA, xB, yB, 1, couleur);
+        segment_tracerSegment(point(A.x, A.y), point(B.x, B.y), 1, couleur);
     }
     else if(dx > 0 && dy > 0 && dx < dy) // 2eme octant
     {
-        segment_tracerSegment(yA, xA, yB, xB, 2, couleur);
+        segment_tracerSegment(point(A.y, A.x), point(B.y, B.x), 2, couleur);
     }
     else if(dx < 0 && dy > 0 && abs(dx) < dy) /* 3eme octant /!\ */
     {
-        segment_tracerSegment( yA, -xA,yB, -xB, 3, couleur);
+        segment_tracerSegment( point(A.y, -A.x),point(B.y, -B.x), 3, couleur);
     }
     else if(dx < 0 && dy > 0 && abs(dx) > dy) // 4eme octant
     {
-        segment_tracerSegment(-xA, yA, -xB, yB, 4, couleur);
+        segment_tracerSegment(point(-A.x, A.y), point(-B.x, B.y), 4, couleur);
     }
     else if(dx < 0 && dy < 0 && abs(dx) > abs(dy)) // 5eme octant
     {
-        segment_tracerSegment(-xA, -yA, -xB, -yB, 5, couleur);
+        segment_tracerSegment(point(-A.x, -A.y), point(-B.x, -B.y), 5, couleur);
     }
     else if(dx < 0 && dy < 0 && abs(dx) < abs(dy)) // 6eme octant
     {
-        segment_tracerSegment(-yA, -xA, -yB, -xB, 6, couleur);
+        segment_tracerSegment(point(-A.y, -A.x), point(-B.y, -B.x), 6, couleur);
     }
     else if(dx > 0 && dy < 0 && dx < abs(dy)) /* 7eme octant /!\ */
     {
-        segment_tracerSegment( -yA, xA, -yB, xB, 7, couleur);
+        segment_tracerSegment( point(-A.y, A.x), point(-B.y, B.x), 7, couleur);
     }
     else if(dx > 0 && dy < 0 && dx > abs(dy)) // 8eme octant
     {
-        segment_tracerSegment(xA, -yA, xB, -yB, 8, couleur);
+        segment_tracerSegment(point(A.x, -A.y), point(B.x, -B.y), 8, couleur);
     }
 }
