@@ -31,9 +31,3 @@ void evenement_clavier(unsigned char touche, int x, int y)
 {
     printf("touche %c appuyee\n", touche);
 }
-
-int main(int nargs, char **args)
-{
-    initPrimitives(nargs,args);
-    return 0;
-}
