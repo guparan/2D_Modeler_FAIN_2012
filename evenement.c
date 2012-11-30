@@ -23,7 +23,7 @@ void evenement_boutonDroit(int x, int y, int fin_click)
 
 void evenement_boutonMilieu(int x, int y, int fin_click)
 {
-    if(fin_click) polygone_remplirGraine(x, x);
+    if(fin_click) polygone_remplirGraine(point(x, y));
 }
 
 
@@ -34,6 +34,6 @@ void evenement_clavier(unsigned char touche, int x, int y)
 
 int main(int nargs, char **args)
 {
-    main_Modeleurlib(nargs,args);
+    initPrimitives(nargs,args);
     return 0;
 }
