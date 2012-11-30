@@ -2,6 +2,16 @@
 #include "primitives.h"
 #include "segment.h"
 
+
+
+void segment_testSegment()
+{
+    Point A = point(10,20);
+    Point B = point(40, 50);
+
+    segment_segmentBresenham(A, B, BLANC);
+}
+
 void segment_tracerSegment(Point A, Point B, int octant, Couleur couleur)
 {
     printf("Segment dans l'octant %d rapporté au 1er : (%d,%d) ; (%d,%d)\n", octant, A.x, A.y, B.x, B.y);
