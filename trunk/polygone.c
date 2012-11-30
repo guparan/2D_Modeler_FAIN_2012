@@ -1,14 +1,6 @@
-//
-//  polygone.c
-//  FAIN-TP1
-//
-//  Created by Lucas Saurel on 29/11/12.
-//  Copyright (c) 2012 Lucas Saurel. All rights reserved.
-//
-
 #include <stdio.h>
 #include "polygone.h"
-#include "modeleur.h"
+#include "primitives.h"
 
 
 void polygone_remplirGraine(int xgraine, int ygraine)
