@@ -4,8 +4,13 @@
 #ifndef FAIN_TP1_polygone_h
 #define FAIN_TP1_polygone_h
 
-void polygone_remplirGraine(Point pgraine);
-void polygone_remplirScanline(Point pmin, Point pmax);
+typedef struct {
+    Point sommets[64];
+    Point pmin;
+    Point pmax;
+} Polygone;
 
+void polygone_remplirGraine(Point pgraine);
+void polygone_remplirScanline(Point pmin, Point pmax, Couleur couleur);
 
 #endif
