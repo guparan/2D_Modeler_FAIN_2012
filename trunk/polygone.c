@@ -22,15 +22,24 @@ void polygone_remplirGraine(Point pgraine)
 }
 
 
-void polygone_remplirScanline(Point pmin, Point pmax)
+void polygone_remplirScanline(Point pmin, Point pmax, Couleur couleur)
 {
     int xmin = pmin.x, xmax = pmax.x, ymin = pmin.y, ymax = pmax.y;
     int x, y;
+    int interieur = 0;
     
     for (y = ymin; y < ymax; y++)
     {
-        for (x = xmin; x < xmax; x++) {
-            
+        for (x = xmin; x < xmax; x++)
+        {
+            if (val_point(x, y) == NOIR) {
+                if (interieur) change_point(x, x, couleur);
+            }
+            else if (val_point(x, y) == BLANC) {
+                if (val_point(x+1, y) == NOIR) {
+                    interieur = 1;
+                }
+            }
         }
     }
 }

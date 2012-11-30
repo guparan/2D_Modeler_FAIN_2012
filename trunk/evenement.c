@@ -30,4 +30,8 @@ void evenement_boutonMilieu(int x, int y, int fin_click)
 void evenement_clavier(unsigned char touche, int x, int y)
 {
     printf("touche %c appuyee\n", touche);
+    
+//    if (touche == 'f') {
+//        polygone_remplirScanline(pmin, pmax, ROUGE);
+//    }
 }
