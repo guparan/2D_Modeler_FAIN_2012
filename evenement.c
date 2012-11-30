@@ -12,7 +12,7 @@ void evenement_boutonDroit(int x, int y, int fin_click)
     if(fin_click) printf("fin"); else printf("debut");
     printf(" appui bouton du milieu de la souris\n");
     if(fin_click) {
-        segment_segmentBresenham(x0,y0,x,y);
+        segment_segmentBresenham(x0,y0,x,y,BLANC);
     }
     else {
         x0=x; y0=y;
