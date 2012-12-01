@@ -11,7 +11,7 @@ Liste *liste_creer()
     return l;
 }
 
-bool liste_estVide(Liste* l)
+booleen liste_estVide(Liste* l)
 {
     return (!l->tete || !l->queue);
 }
@@ -39,6 +39,7 @@ void liste_insere(Liste *l, Point p)
 //        liste_insere(tmp, e);
 //	}
 //	return l;
+    puts("liste_insere");
     Maillon *m = (Maillon*) malloc (sizeof(Maillon));
     m->point = p;
     m->suivant = NULL;
@@ -47,11 +48,15 @@ void liste_insere(Liste *l, Point p)
         l->tete = m;
         l->queue = m;
     }
-    else l->queue->suivant = m;
+    else
+    {
+        l->queue->suivant = m; // insertion de l'element
+        l->queue = m; // mise à jour de la queue
+    }
 }
 
 
-bool liste_appartient(Point p, Liste* l)
+booleen liste_appartient(Point p, Liste* l)
 {
 //	int res = 0;
     
@@ -62,10 +67,10 @@ bool liste_appartient(Point p, Liste* l)
     Maillon *m = l->tete;
     while(m)
     {
-        if (point_egaux(p, m->point)) return true;
+        if (point_egaux(p, m->point)) return vrai;
         m = m->suivant;
     }
-    return false;
+    return faux;
 }
 
 
