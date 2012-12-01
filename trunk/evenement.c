@@ -7,7 +7,9 @@
 #include "point.h"
 
 
-static Point* dernier_point = NULL;
+static Polygone* polygone = NULL;
+
+static int mode_touche_c = BLANC;
 
 
 void evenement_souris(int b,int s,int x,int y)
@@ -58,19 +60,18 @@ void evenement_boutonDroit(int x, int y, int fin_click)
         puts("relache");
         if(x0 == x && y0 == y) // si clic statique
         {
-            if(!dernier_point) // rien en mémoire
+            if(!polygone) // rien en mémoire
             {
-                dernier_point = (Point*) malloc(sizeof(Point));
+                polygone = polygone_creer();
                 change_point(x,y,!val_point(x,y));
             }
             else // pour tout autre clic
             {
-                segment_segmentBresenham(*dernier_point, point(x,y), BLANC);
+                segment_segmentBresenham(polygone->sommets->queue->point, point(x,y), BLANC);
             }
 
-            // memorisation du dernier point affiché
-            dernier_point->x = x;
-            dernier_point->y = y;
+            // ajout du dernier point au polygone
+            liste_insere(polygone->sommets, point(x, y));
         }
         else // si clic glissé
         {
@@ -101,4 +102,10 @@ void evenement_clavier(unsigned char touche, int x, int y)
 //    if (touche == 'f') {
 //        polygone_remplirScanline(pmin, pmax, ROUGE);
 //    }
+
+    if(touche == 'c' && polygone && liste_taille(polygone->sommets)>2) // tracé du polygone avec au moins 3 sommets
+    {
+        segment_segmentBresenham(polygone->sommets->queue->point, polygone->sommets->tete->point, mode_touche_c);
+        mode_touche_c = (mode_touche_c+1)%2; // alternateur de couleur
+    }
 }

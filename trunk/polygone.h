@@ -6,12 +6,13 @@
 #define POLYGONE_H
 
 typedef struct {
-    Liste sommets;
+    Liste* sommets;
     Point pmin;
     Point pmax;
     int ferme;
 } Polygone;
 
+Polygone* polygone_creer();
 void polygone_remplirGraine(Point pgraine);
 void polygone_remplirScanline(Point pmin, Point pmax, Couleur couleur);
 

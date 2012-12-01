@@ -4,7 +4,7 @@
 
 #include "point.h"
 
-typedef enum {false, true} bool;
+typedef enum {faux, vrai} booleen;
 
 typedef struct maillon {
 	Point point;
@@ -19,6 +19,8 @@ typedef struct liste {
 // Cree une liste a partir d'un point
 Liste* liste_creer ();
 
+booleen liste_estVide(Liste* l);
+
 // Ajoute un element en tete de liste et retourne la liste
 //void liste_ajout(Liste *l, Point p);
 
@@ -29,7 +31,7 @@ void liste_insere(Liste* l, Point p);
 int liste_taille(Liste *l);
 
 // Retourne 1 si l'element en paramètre est dans la liste, 0 sinon
-bool liste_appartient(Point p, Liste *l);
+booleen liste_appartient(Point p, Liste *l);
 
 // Concatène l2 à la suite de l1
 Liste *liste_concat(Liste *l1, Liste *l2);

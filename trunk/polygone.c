@@ -2,6 +2,16 @@
 #include "polygone.h"
 
 
+Polygone* polygone_creer()
+{
+    Polygone* p = (Polygone*) malloc(sizeof(Polygone));
+    p->sommets = liste_creer();
+    p->ferme = faux;
+    p->pmin = point(-1, -1);
+    p->pmax = point(-1, -1);
+    return p;
+}
+
 void polygone_remplirGraine(Point pgraine)
 {
     int xgraine = pgraine.x, ygraine = pgraine.y;
