@@ -12,6 +12,20 @@ Polygone* polygone_creer()
     return p;
 }
 
+void polygone_ajouterSommet(Polygone* polygone, Point p)
+{
+    if(point_estSuperieur(p, polygone->pmax) || point_sontEgaux(polygone->pmax, point(-1,-1)))
+    {
+        polygone->pmax = p;
+    }
+    if(point_estInferieur(p, polygone->pmin) || point_sontEgaux(polygone->pmin, point(-1,-1)))
+    {
+        polygone->pmin = p;
+    }
+    liste_insere(polygone->sommets, p);
+}
+
+
 void polygone_remplirGraine(Point pgraine)
 {
     int xgraine = pgraine.x, ygraine = pgraine.y;
@@ -32,11 +46,13 @@ void polygone_remplirGraine(Point pgraine)
 }
 
 
-void polygone_remplirScanline(Point pmin, Point pmax, Couleur couleur)
+void polygone_remplirScanline(Polygone* p, Couleur couleur)
 {
-    int xmin = pmin.x, xmax = pmax.x, ymin = pmin.y, ymax = pmax.y;
+    int xmin = p->pmin.x, xmax = p->pmax.x, ymin = p->pmin.y, ymax = p->pmax.y;
     int x, y;
     int interieur = 0;
+
+    if(!p->ferme) return;
     
     for (y = ymin; y < ymax; y++)
     {
