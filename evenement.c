@@ -42,20 +42,22 @@ void evenement_boutonDroit(int x, int y, int fin_click)
 {
     static int x0,y0;
     
+    /* Definitions pour la fonction segment_testSegment */
     Point points[10];
     int i;
     
     for(i=0 ; i<10 ; i++)
     {
-        points[i].x = i*2+3;
-        points[i].y = i*2+7;
+        points[i].x = i*5+(i%2)*4;
+        points[i].y = i*2+(i%2)*9;
     }
+    /* Fin definitions pour test */
     
     if(fin_click) printf("fin"); else printf("debut");
     printf(" appui bouton du milieu de la souris\n");
     if(fin_click) {
-        segment_segmentBresenham(point(x0,y0), point(x,y), BLANC);
-        //segment_testSegment(points);
+        //segment_segmentBresenham(point(x0,y0), point(x,y), BLANC);
+        segment_testSegment(points);
     }
     else {
         x0=x; y0=y;
