@@ -4,14 +4,14 @@
 
 
 
-void segment_testSegment(Point *points)
+void segment_testSegment(Point *points, int nbPoints)
 {
     Point precedent;
     int i=0;
 
     if(!points) return;
 
-    for(i=0 ; i<9 ; i++)
+    for(i=0 ; i<nbPoints-1 ; i++)
     {
         precedent.x = points[i].x;
         precedent.y = points[i].y;
@@ -34,7 +34,7 @@ void segment_tracerSegment(Point A, Point B, int octant, Couleur couleur)
 
     while(x < B.x+1)
     {
-//        printf("Boucle segment_tracerSegment (B.x==%d) : x==%d\n", B.x, x);
+//        printf("Boucle segment_tracerSegment (B.x = %d) : x = %d\n", B.x, x);
         switch (octant)
         {
             case 1 : change_point(x, y, couleur); break;
@@ -139,7 +139,7 @@ void segment_segmentBresenham(Point A, Point B, Couleur couleur)
     int dx = B.x - A.x;
     int dy = B.y - A.y;
     
-    printf("Calcul de Bresenham pour le segment : (%d, %d), (%d,%d). dx == %d, dy == %d\n", A.x, A.y, B.x, B.y, dx, dy);
+    printf("Calcul de Bresenham pour le segment : (%d, %d), (%d,%d). dx = %d, dy = %d\n", A.x, A.y, B.x, B.y, dx, dy);
 
     if (dx == 0)
     {

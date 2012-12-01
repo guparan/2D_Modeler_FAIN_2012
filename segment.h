@@ -16,6 +16,6 @@ void segment_tracerSegmentHorizontal(Point A, Point B, Couleur couleur);
 void segment_tracerSegmentLimite(Point A, Point B, Couleur couleur);
 
 /* Tests */
-void segment_testSegment(Point *points);
+void segment_testSegment(Point *points, int nbPoints);
 
 #endif

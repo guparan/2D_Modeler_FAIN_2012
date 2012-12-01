@@ -142,7 +142,6 @@ int initPrimitives(int nargs, char **args)
 	glutKeyboardFunc(evenement_clavier);
 
 	glPointSize(TAILLE_PIXEL);
-	glutMainLoop();
 	return 0;
 }
 
