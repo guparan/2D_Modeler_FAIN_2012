@@ -12,6 +12,9 @@ void segment_tracerSegment(Point A, Point B, int octant, Couleur couleur);
 void segment_tracerSegmentVertical(Point A, Point B, Couleur couleur);
 void segment_tracerSegmentHorizontal(Point A, Point B, Couleur couleur);
 
+/* Trace un segment tel que abs(dx) == abs(dy) */
+void segment_tracerSegmentLimite(Point A, Point B, Couleur couleur);
+
 /* Tests */
 void segment_testSegment(Point *points);
 

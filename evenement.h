@@ -8,6 +8,7 @@
  les caractere touche correspond à la touche appuyee */
 void evenement_clavier(unsigned char touche, int x,int y);
 
+/* Actions à réaliser lorsqu'on clique */
 void evenement_souris(int b,int s,int x,int y);
 
 /* Fonction executee deux fois lorsque que l'on appuie (fin_click=0)
