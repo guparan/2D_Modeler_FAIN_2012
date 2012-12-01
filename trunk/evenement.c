@@ -71,7 +71,7 @@ void evenement_boutonDroit(int x, int y, int fin_click)
             }
 
             // ajout du dernier point au polygone
-            liste_insere(polygone->sommets, point(x, y));
+            polygone_ajouterSommet(polygone, point(x, y));
         }
         else // si clic glissé
         {
@@ -99,13 +99,23 @@ void evenement_clavier(unsigned char touche, int x, int y)
 {
     printf("touche %c appuyee\n", touche);
     
-//    if (touche == 'f') {
-//        polygone_remplirScanline(pmin, pmax, ROUGE);
-//    }
+    if (touche == 'f') {
+        polygone_remplirScanline(polygone, ROUGE);
+    }
 
     if(touche == 'c' && polygone && liste_taille(polygone->sommets)>2) // tracé du polygone avec au moins 3 sommets
     {
-        segment_segmentBresenham(polygone->sommets->queue->point, polygone->sommets->tete->point, mode_touche_c);
-        mode_touche_c = (mode_touche_c+1)%2; // alternateur de couleur
+        if(mode_touche_c == BLANC)
+        {
+            segment_segmentBresenham(polygone->sommets->queue->point, polygone->sommets->tete->point, BLANC);
+            polygone->ferme = 1;
+            mode_touche_c = NOIR;
+        }
+        else
+        {
+            segment_segmentBresenham(polygone->sommets->queue->point, polygone->sommets->tete->point, NOIR);
+            polygone->ferme = 0;
+            mode_touche_c = BLANC;
+        }
     }
 }

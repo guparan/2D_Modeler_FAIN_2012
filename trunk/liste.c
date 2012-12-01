@@ -60,14 +60,14 @@ booleen liste_appartient(Point p, Liste* l)
 {
 //	int res = 0;
     
-//    if (point_egaux(p, l.point)) res = 1;
+//    if (point_sontEgaux(p, l.point)) res = 1;
 //	else if (l.suivant != NULL) res = liste_appartient(p, *l.suivant);
 //    return res;
 
     Maillon *m = l->tete;
     while(m)
     {
-        if (point_egaux(p, m->point)) return vrai;
+        if (point_sontEgaux(p, m->point)) return vrai;
         m = m->suivant;
     }
     return faux;
@@ -116,7 +116,7 @@ int liste_position(Point p, Liste* l)
 {
 //	int res = 1;
     
-//    while (!point_egaux(e, l.point)) {
+//    while (!point_sontEgaux(e, l.point)) {
 //        if (l.suivant != NULL) {
 //            res += 1;
 //            l = *l.suivant;
@@ -130,7 +130,7 @@ int liste_position(Point p, Liste* l)
     Maillon *m = l->tete;
     while(m)
     {
-        if (point_egaux(p, m->point)) return pos;
+        if (point_sontEgaux(p, m->point)) return pos;
 
         pos++;
         m = m->suivant;

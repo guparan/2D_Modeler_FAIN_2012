@@ -13,7 +13,9 @@ typedef struct {
 } Polygone;
 
 Polygone* polygone_creer();
+void polygone_ajouterSommet(Polygone* polygone, Point p);
+
 void polygone_remplirGraine(Point pgraine);
-void polygone_remplirScanline(Point pmin, Point pmax, Couleur couleur);
+void polygone_remplirScanline(Polygone *p, Couleur couleur);
 
 #endif
