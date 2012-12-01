@@ -7,6 +7,9 @@
 #include "point.h"
 
 
+static Point* dernier_point = NULL;
+
+
 void evenement_souris(int b,int s,int x,int y)
 {
     int TAILLE_PIXEL = 10;
@@ -41,14 +44,38 @@ void evenement_souris(int b,int s,int x,int y)
 void evenement_boutonDroit(int x, int y, int fin_click)
 {
     static int x0,y0;
-    
-    if(fin_click) printf("fin"); else printf("debut");
-    printf(" appui bouton droit de la souris\n");
-    if(fin_click) {
-        segment_segmentBresenham(point(x0,y0), point(x,y), BLANC);
+
+    printf("clic droit ");
+
+    if(!fin_click) // quand clic enfonce : on retient le départ
+    {
+        puts("enfonce");
+        x0=x;
+        y0=y;
     }
-    else {
-        x0=x; y0=y;
+    else // quand clic relaché
+    {
+        puts("relache");
+        if(x0 == x && y0 == y) // si clic statique
+        {
+            if(!dernier_point) // rien en mémoire
+            {
+                dernier_point = (Point*) malloc(sizeof(Point));
+                change_point(x,y,!val_point(x,y));
+            }
+            else // pour tout autre clic
+            {
+                segment_segmentBresenham(*dernier_point, point(x,y), BLANC);
+            }
+
+            // memorisation du dernier point affiché
+            dernier_point->x = x;
+            dernier_point->y = y;
+        }
+        else // si clic glissé
+        {
+            segment_segmentBresenham(point(x0,y0), point(x,y), BLANC);
+        }
     }
 }
 
