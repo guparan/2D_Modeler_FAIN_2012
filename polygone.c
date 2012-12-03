@@ -48,6 +48,34 @@ void polygone_ajouterSommet(Polygone* polygone, Point p, int liaison)
     //polygone_dessiner(polygone);
 }
 
+
+void polygone_insererSommet(Polygone *polygone, Point p, Point suivant)
+{
+    int rang = 0;
+    Maillon *sommet = polygone->sommets->tete;
+
+    // insertion autorisée à partir de 2 sommets
+    if(liste_taille(polygone->sommets) < 2) return;
+
+    /* Calcul du rang */
+    while(sommet && !point_sontEgaux(sommet->point, suivant))
+    {
+        sommet = sommet->suivant;
+        rang++;
+    }
+
+
+    /* Traitement graphique léger mais sale */
+    // ...
+
+    /* Insertion dans le polygone */
+    liste_inserer(polygone->sommets, p, rang);
+
+    /* Traitement graphique lourd mais propre */
+    polygone_dessiner(polygone, 1);
+}
+
+
 void polygone_supprimerSommet(Polygone *polygone, Point p)
 {
     Maillon* m = polygone->sommets->tete;
@@ -57,13 +85,36 @@ void polygone_supprimerSommet(Polygone *polygone, Point p)
     {
         if(point_sontEgaux(m->point, p))
         {
+            /* Traitement graphique léger mais sale */
+            change_point(p.x, p.y, NOIR);
+            if(liste_estVide(polygone->sommets)) return;
+            if(m != polygone->sommets->tete)
+            {
+                segment_segmentBresenham(m->precedent->point, p, NOIR);
+            }
+            if(m != polygone->sommets->queue)
+            {
+                segment_segmentBresenham(p, m->suivant->point, NOIR);
+            }
+            if(m != polygone->sommets->tete && m != polygone->sommets->queue)
+            {
+                segment_segmentBresenham(m->precedent->point, m->suivant->point, BLANC);
+            }
+
+
+            /* Suppression dans le polygone */
             liste_supprimerRang(polygone->sommets, rang);
+
+
+            /* Traitement graphique lourd mais propre */
+//            polygone_dessiner(p, 1);
+
+            return;
         }
         m = m->suivant;
         rang++;
     }
 }
-
 
 void polygone_dessiner(Polygone* p, int clear)
 {
