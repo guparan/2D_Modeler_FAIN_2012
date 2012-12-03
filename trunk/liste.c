@@ -12,22 +12,82 @@ Liste *liste_creer()
 }
 
 
-void liste_detruire(Liste* l)
+void liste_detruireListe(Liste* l)
 {
-    liste_detruireMaillon(l->tete);
+    liste_detruireListeMaillons(l->tete);
     printf("queue : %p\n", l->queue);
     free(l);
     //l=NULL;
 }
 
 
-void liste_detruireMaillon(Maillon* m)
+void liste_detruireListeMaillons(Maillon* m)
 {
     if (!m) return;
-    liste_detruireMaillon(m->suivant);
+    liste_detruireListeMaillons(m->suivant);
     printf("Destruction du maillon : %d, %d\n", m->point.x, m->point.y);
     free(m);
     //m=NULL;
+}
+
+void liste_supprimer(Liste* l, Maillon* m)
+{
+    Maillon *sommet = l->tete;
+    if(liste_estVide(l)) return;
+    if(l->tete == l->queue) // un seul element dans la liste
+    {
+        l->tete = NULL;
+        l->queue = NULL;
+        free(sommet);
+        return;
+    }
+
+    while(sommet)
+    {
+        if(sommet == m)
+        {
+            sommet->precedent->suivant = sommet->suivant;
+            sommet->suivant->precedent = sommet->precedent;
+            free(sommet);
+            return;
+        }
+        sommet = sommet->suivant;
+    }
+}
+
+void liste_supprimerRang(Liste* l, int rang)
+{
+    int n = 0;
+    Maillon* sommet = l->tete;
+    if(liste_estVide(l)) return;
+
+    while(sommet)
+    {
+        if(n == rang)
+        {
+            if(sommet == l->tete)
+            {
+                l->tete = sommet->suivant;
+            }
+            else
+            {
+                sommet->precedent->suivant = sommet->suivant;
+            }
+
+            if(sommet == l->queue)
+            {
+                l->queue = sommet->precedent;
+            }
+            else
+            {
+                sommet->suivant->precedent = sommet->precedent;
+            }
+            free(sommet);
+            return;
+        }
+        sommet = sommet->suivant;
+        n++;
+    }
 }
 
 
@@ -46,7 +106,7 @@ booleen liste_estVide(Liste* l)
 //}
 
 
-void liste_insere(Liste *l, Point p)
+void liste_ajouter(Liste *l, Point p)
 {
 //	Liste tmp = l;
 	
@@ -56,13 +116,14 @@ void liste_insere(Liste *l, Point p)
 //	}
 //	else {
 //		tmp = *tmp.suivant;
-//        liste_insere(tmp, e);
+//        liste_ajouter(tmp, e);
 //	}
 //	return l;
-    puts("liste_insere");
+    puts("liste_ajouter");
     Maillon *m = (Maillon*) malloc (sizeof(Maillon));
     m->point = p;
     m->suivant = NULL;
+    m->precedent = NULL;
     if(liste_estVide(l)) // m est le premier element de l
     {
         l->tete = m;
@@ -70,6 +131,7 @@ void liste_insere(Liste *l, Point p)
     }
     else
     {
+        m->precedent = l->queue;
         l->queue->suivant = m; // insertion de l'element
         l->queue = m; // mise à jour de la queue
     }
