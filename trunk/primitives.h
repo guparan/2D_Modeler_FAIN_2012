@@ -28,8 +28,6 @@ void change_point(int x, int y, Couleur c);
 Couleur val_point(int x, int y);
 
 
-
-
 /* Efface toute la fenetre */
 void efface_tout(void);
 

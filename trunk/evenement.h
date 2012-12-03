@@ -2,6 +2,8 @@
 #ifndef EVENEMENT_H
 #define EVENEMENT_H
 
+typedef enum { APPEND, VERTEX, EDGE } ModeEdition;
+ 
 
 /* Fonction executee lorsqu'on appuie sur une touche du clavier
  x et y representent les coordonnées du curseur de la souris

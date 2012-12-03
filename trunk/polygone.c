@@ -39,6 +39,12 @@ void polygone_ajouterSommet(Polygone* polygone, Point p)
 }
 
 
+void polygone_selectionneSommetSuivant()
+{
+    
+}
+
+
 void polygone_remplirGraine(Point pgraine)
 {
     int xgraine = pgraine.x, ygraine = pgraine.y;
