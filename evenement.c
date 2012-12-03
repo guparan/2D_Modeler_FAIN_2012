@@ -7,9 +7,10 @@
 #include "point.h"
 
 
-Polygone* polygone = NULL;
+static Polygone* polygone = NULL;
 
 static int mode_touche_c = BLANC;
+static ModeEdition mode_edition;
 
 
 void evenement_souris(int b,int s,int x,int y)
@@ -22,22 +23,22 @@ void evenement_souris(int b,int s,int x,int y)
 
     switch(b)
     {
-    case GLUT_LEFT_BUTTON:
-    {
-        evenement_boutonGauche(x2, y2, s==GLUT_DOWN);
-        break;
+        case GLUT_LEFT_BUTTON:
+        {
+            evenement_boutonGauche(x2, y2, s==GLUT_DOWN);
+            break;
+        }
+        case GLUT_MIDDLE_BUTTON:
+        {
+            evenement_boutonMilieu(x2, y2, s==GLUT_UP);
+            break;
+        }
+        case GLUT_RIGHT_BUTTON:
+        {
+            evenement_boutonDroit(x2,y2,s==GLUT_UP);
+            break;
+        }
     }
-    case GLUT_MIDDLE_BUTTON:
-    {
-        evenement_boutonMilieu(x2, y2, s==GLUT_UP);
-        break;
-    }
-    case GLUT_RIGHT_BUTTON:
-    {
-        evenement_boutonDroit(x2,y2,s==GLUT_UP);
-        break;
-    }
-  }
   /*glutPostRedisplay();*/
     glutReportErrors();
 }
@@ -60,17 +61,14 @@ void evenement_boutonDroit(int x, int y, int fin_click)
         puts("relache");
         if(x0 == x && y0 == y) // si clic statique
         {
-            if(!polygone || liste_estVide(polygone->sommets)) // rien en mémoire
+            if(!polygone) // rien en mémoire
             {
-                puts("Creation d'un polygone");
                 polygone = polygone_creer();
-                change_point(x,y,JAUNE);
+                change_point(x,y,!val_point(x,y));
             }
             else // pour tout autre clic
             {
-                //change_point(polygone->sommets->queue->point.x,polygone->sommets->queue->point.y,JAUNE);
                 segment_segmentBresenham(polygone->sommets->queue->point, point(x,y), BLANC);
-                change_point(x,y,JAUNE);
             }
 
             // ajout du dernier point au polygone
@@ -125,6 +123,21 @@ void evenement_clavier(unsigned char touche, int x, int y)
     if (touche == 'e') {
         efface_tout();
         polygone_detruire(polygone);
-        polygone = NULL;
+    }
+    
+    if (touche == 'a') {
+        mode_edition = APPEND;
+        puts("Prodramme en mode APPEND");
+    }
+    
+    if (touche == 'v') {
+        mode_edition = VERTEX;
+        //polygone_selectionneSommetSuivant();
+        puts("Prodramme en mode VERTEX");
+    }
+    
+    if (touche == 'e') {
+        mode_edition = EDGE;
+        puts("Programme en mode EDGE");
     }
 }
