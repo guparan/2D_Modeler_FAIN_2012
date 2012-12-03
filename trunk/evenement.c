@@ -7,7 +7,7 @@
 #include "point.h"
 
 
-static Polygone* polygone = NULL;
+Polygone* polygone = NULL;
 
 static int mode_touche_c = BLANC;
 
@@ -60,14 +60,17 @@ void evenement_boutonDroit(int x, int y, int fin_click)
         puts("relache");
         if(x0 == x && y0 == y) // si clic statique
         {
-            if(!polygone) // rien en mémoire
+            if(!polygone || liste_estVide(polygone->sommets)) // rien en mémoire
             {
+                puts("Creation d'un polygone");
                 polygone = polygone_creer();
-                change_point(x,y,!val_point(x,y));
+                change_point(x,y,JAUNE);
             }
             else // pour tout autre clic
             {
+                //change_point(polygone->sommets->queue->point.x,polygone->sommets->queue->point.y,JAUNE);
                 segment_segmentBresenham(polygone->sommets->queue->point, point(x,y), BLANC);
+                change_point(x,y,JAUNE);
             }
 
             // ajout du dernier point au polygone
@@ -121,5 +124,7 @@ void evenement_clavier(unsigned char touche, int x, int y)
     
     if (touche == 'e') {
         efface_tout();
+        polygone_detruire(polygone);
+        polygone = NULL;
     }
 }

@@ -15,8 +15,9 @@ Liste *liste_creer()
 void liste_detruire(Liste* l)
 {
     liste_detruireMaillon(l->tete);
-    if (l->queue) puts("Pas normal");
+    printf("queue : %p\n", l->queue);
     free(l);
+    //l=NULL;
 }
 
 
@@ -24,7 +25,9 @@ void liste_detruireMaillon(Maillon* m)
 {
     if (!m) return;
     liste_detruireMaillon(m->suivant);
+    printf("Destruction du maillon : %d, %d\n", m->point.x, m->point.y);
     free(m);
+    //m=NULL;
 }
 
 
