@@ -82,9 +82,9 @@ void segment_tracerSegmentVertical(Point A, Point B, Couleur couleur) {
 void segment_tracerSegmentHorizontal(Point A, Point B, Couleur couleur) {
     int x;
 
-    //printf("Trace le segment horizontal : (%d, %d), (%d,%d)\n", A.x, A.y, B.x, B.y);
+    printf("Trace le segment horizontal : (%d, %d), (%d,%d)\n", A.x, A.y, B.x, B.y);
     
-    if (A.x<B.x) {
+    if (A.x < B.x) {
         for (x = A.x; x < B.x+1; x++) {
             change_point(x, A.y, couleur);
         }
@@ -143,11 +143,11 @@ void segment_segmentBresenham(Point A, Point B, Couleur couleur)
 
     if (dx == 0)
     {
-        segment_tracerSegmentVertical(point(A.x, A.y), point(0, B.y), couleur);
+        segment_tracerSegmentVertical(point(A.x, A.y), point(B.x, B.y), couleur);
     }
     else if (dy == 0)
     {
-        segment_tracerSegmentHorizontal(point(A.y, A.x), point(B.x, 0), couleur);
+        segment_tracerSegmentHorizontal(point(A.x, A.y), point(B.x, B.y), couleur);
     }
     else if (abs(dx) == abs(dy))
     {

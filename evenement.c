@@ -118,4 +118,8 @@ void evenement_clavier(unsigned char touche, int x, int y)
             mode_touche_c = BLANC;
         }
     }
+    
+    if (touche == 'e') {
+        efface_tout();
+    }
 }
