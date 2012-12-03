@@ -85,9 +85,6 @@ void evenement_boutonDroit(int x, int y, int fin_click)
 
 void evenement_boutonGauche(int x, int y, int fin_click)
 {
-//    if(fin_click) {
-//        change_point(x,y,!val_point(x,y));
-//    }
     if(!fin_click) return;
 
     if(mode_suppression)
@@ -97,7 +94,7 @@ void evenement_boutonGauche(int x, int y, int fin_click)
         return;
     }
 
-    if(mode_insertion)
+    else if(mode_insertion)
     {
         if(!point_sontEgaux(point_insertion, point(-1,-1))) // clic sur point suivant
         {
@@ -110,6 +107,12 @@ void evenement_boutonGauche(int x, int y, int fin_click)
             point_insertion.x = x;
             point_insertion.y = y;
         }
+    }
+
+    else // pas de mode
+    {
+        Point p = polygone_sommetLePlusProche(polygone, point(x,y));
+        change_point(p.x, p.y, (val_point(p.x, p.y)+1)%8);
     }
 }
 
