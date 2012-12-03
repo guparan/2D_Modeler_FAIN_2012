@@ -32,21 +32,23 @@ void segment_tracerSegment(Point A, Point B, int octant, Couleur couleur)
     
     //printf("Trace le segment : (%d, %d), (%d,%d), octant %d\n", A.x, A.y, B.x, B.y, octant);
 
-    while(x < B.x+1)
+    while(x < B.x)
     {
-//        printf("Boucle segment_tracerSegment (B.x = %d) : x = %d\n", B.x, x);
-        switch (octant)
+        if(x!=A.x)
         {
-            case 1 : change_point(x, y, couleur); break;
-            case 2 : change_point(y, x, couleur); break;
-            case 3 : change_point(-y, x, couleur); break;
-            case 4 : change_point(-x, y, couleur); break;
-            case 5 : change_point(-x, -y, couleur); break;
-            case 6 : change_point(-y, -x, couleur); break;
-            case 7 : change_point(y, -x, couleur); break;
-            case 8 : change_point(x, -y, couleur); break;
+//        printf("Boucle segment_tracerSegment (B.x = %d) : x = %d\n", B.x, x);
+            switch (octant)
+            {
+                case 1 : change_point(x, y, couleur); break;
+                case 2 : change_point(y, x, couleur); break;
+                case 3 : change_point(-y, x, couleur); break;
+                case 4 : change_point(-x, y, couleur); break;
+                case 5 : change_point(-x, -y, couleur); break;
+                case 6 : change_point(-y, -x, couleur); break;
+                case 7 : change_point(y, -x, couleur); break;
+                case 8 : change_point(x, -y, couleur); break;
+            }
         }
-
         x++;
         if(d < 0)
         {
@@ -161,7 +163,7 @@ void segment_segmentBresenham(Point A, Point B, Couleur couleur)
     {
         segment_tracerSegment(point(A.y, A.x), point(B.y, B.x), 2, couleur);
     }
-    else if(dx < 0 && dy > 0 && abs(dx) < dy) /* 3eme octant /!\ */
+    else if(dx < 0 && dy > 0 && abs(dx) < dy) // 3eme octant
     {
         segment_tracerSegment( point(A.y, -A.x),point(B.y, -B.x), 3, couleur);
     }
@@ -177,7 +179,7 @@ void segment_segmentBresenham(Point A, Point B, Couleur couleur)
     {
         segment_tracerSegment(point(-A.y, -A.x), point(-B.y, -B.x), 6, couleur);
     }
-    else if(dx > 0 && dy < 0 && dx < abs(dy)) /* 7eme octant /!\ */
+    else if(dx > 0 && dy < 0 && dx < abs(dy)) // 7eme octant
     {
         segment_tracerSegment( point(-A.y, A.x), point(-B.y, B.x), 7, couleur);
     }
