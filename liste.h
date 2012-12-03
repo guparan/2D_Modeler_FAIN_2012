@@ -19,6 +19,11 @@ typedef struct liste {
 // Cree une liste a partir d'un point
 Liste* liste_creer ();
 
+// Detruit une liste (libere la memoire)
+void liste_detruire(Liste* l);
+void liste_detruireMaillon(Maillon* m);
+
+
 booleen liste_estVide(Liste* l);
 
 // Ajoute un element en tete de liste et retourne la liste

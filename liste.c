@@ -11,6 +11,23 @@ Liste *liste_creer()
     return l;
 }
 
+
+void liste_detruire(Liste* l)
+{
+    liste_detruireMaillon(l->tete);
+    if (l->queue) puts("Pas normal");
+    free(l);
+}
+
+
+void liste_detruireMaillon(Maillon* m)
+{
+    if (!m) return;
+    liste_detruireMaillon(m->suivant);
+    free(m);
+}
+
+
 booleen liste_estVide(Liste* l)
 {
     return (!l->tete || !l->queue);

@@ -12,6 +12,14 @@ Polygone* polygone_creer()
     return p;
 }
 
+
+void polygone_detruire(Polygone *p)
+{
+    liste_detruire(p->sommets);
+    free(p);
+}
+
+
 void polygone_ajouterSommet(Polygone* polygone, Point p)
 {
     if(point_sontEgaux(polygone->pmax, point(-1,-1))) // initialisation
