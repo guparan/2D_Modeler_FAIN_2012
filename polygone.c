@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "polygone.h"
 #include "segment.h"
+#include "primitives.h"
 
 Polygone* polygone_creer()
 {
@@ -15,12 +16,12 @@ Polygone* polygone_creer()
 
 void polygone_detruire(Polygone *p)
 {
-    liste_detruire(p->sommets);
+    liste_detruireListe(p->sommets);
     free(p);
 }
 
 
-void polygone_ajouterSommet(Polygone* polygone, Point p)
+void polygone_ajouterSommet(Polygone* polygone, Point p, int liaison)
 {
     if(point_sontEgaux(polygone->pmax, point(-1,-1))) // initialisation
     {
@@ -35,7 +36,48 @@ void polygone_ajouterSommet(Polygone* polygone, Point p)
         if(p.y < polygone->pmin.y) polygone->pmin.y = p.y - 1;
     }
 
-    liste_insere(polygone->sommets, p);
+    /* Ajout du sommet dans la vue */
+    change_point(p.x,p.y,JAUNE);
+
+    /* Tracé du segment si demandé */
+//    printf("%d\n", liaison);
+    if(liaison) segment_segmentBresenham(polygone->sommets->queue->point, p, BLANC);
+
+    liste_ajouter(polygone->sommets, p);
+
+    //polygone_dessiner(polygone);
+}
+
+void polygone_supprimerSommet(Polygone *polygone, Point p)
+{
+    Maillon* m = polygone->sommets->tete;
+    int rang = 0;
+
+    while(m)
+    {
+        if(point_sontEgaux(m->point, p))
+        {
+            liste_supprimerRang(polygone->sommets, rang);
+        }
+        m = m->suivant;
+        rang++;
+    }
+}
+
+
+void polygone_dessiner(Polygone* p, int clear)
+{
+    Maillon *sommet = p->sommets->tete;
+
+    if(clear) efface_tout();
+
+    while(sommet)
+    {
+        change_point(sommet->point.x,sommet->point.y,JAUNE);
+        if(sommet->precedent) segment_segmentBresenham(sommet->precedent->point, sommet->point, BLANC);
+        sommet = sommet->suivant;
+    }
+    if(p->ferme) segment_segmentBresenham(p->sommets->queue->point, p->sommets->tete->point, BLANC);
 }
 
 

@@ -9,6 +9,7 @@ typedef enum {faux, vrai} booleen;
 typedef struct maillon {
 	Point point;
     struct maillon *suivant;
+    struct maillon *precedent;
 } Maillon;
 
 typedef struct liste {
@@ -20,17 +21,19 @@ typedef struct liste {
 Liste* liste_creer ();
 
 // Detruit une liste (libere la memoire)
-void liste_detruire(Liste* l);
-void liste_detruireMaillon(Maillon* m);
+void liste_detruireListe(Liste* l);
+void liste_detruireListeMaillons(Maillon* m);
 
+// Supprime un maillon par comparaisons successives
+void liste_supprimer(Liste* l, Maillon* m);
+
+// Supprime directement l'élement d'indice 'rang' (plus rapide)
+void liste_supprimerRang(Liste* l, int rang);
 
 booleen liste_estVide(Liste* l);
 
-// Ajoute un element en tete de liste et retourne la liste
-//void liste_ajout(Liste *l, Point p);
-
 // Insere un élément à la fin de la liste et retourne la liste
-void liste_insere(Liste* l, Point p);
+void liste_ajouter(Liste* l, Point p);
 
 // Retourne la taille d'une liste
 int liste_taille(Liste *l);

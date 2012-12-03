@@ -12,6 +12,8 @@ static Polygone* polygone = NULL;
 static int mode_touche_c = BLANC;
 static ModeEdition mode_edition;
 
+int mode_suppr = 0;
+
 
 void evenement_souris(int b,int s,int x,int y)
 {
@@ -61,18 +63,22 @@ void evenement_boutonDroit(int x, int y, int fin_click)
         puts("relache");
         if(x0 == x && y0 == y) // si clic statique
         {
+            if(mode_suppr)
+            {
+                polygone_supprimerSommet(polygone, point(x, y));
+                polygone_dessiner(polygone, 1);
+                return;
+            }
+
             if(!polygone) // rien en mémoire
             {
                 polygone = polygone_creer();
-                change_point(x,y,!val_point(x,y));
+                polygone_ajouterSommet(polygone, point(x, y), 0);
             }
             else // pour tout autre clic
             {
-                segment_segmentBresenham(polygone->sommets->queue->point, point(x,y), BLANC);
+                polygone_ajouterSommet(polygone, point(x, y), 1);
             }
-
-            // ajout du dernier point au polygone
-            polygone_ajouterSommet(polygone, point(x, y));
         }
         else // si clic glissé
         {
@@ -123,6 +129,12 @@ void evenement_clavier(unsigned char touche, int x, int y)
     if (touche == 'e') {
         efface_tout();
         polygone_detruire(polygone);
+        polygone = NULL; // indispensable
+    }
+
+    if(touche == 's')
+    {
+        mode_suppr = (mode_suppr+1)%2;
     }
     
     if (touche == 'a') {
