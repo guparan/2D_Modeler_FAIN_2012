@@ -32,8 +32,11 @@ void liste_supprimerRang(Liste* l, int rang);
 
 booleen liste_estVide(Liste* l);
 
-// Insere un élément à la fin de la liste et retourne la liste
+// Ajoute un élément à la fin de la liste
 void liste_ajouter(Liste* l, Point p);
+
+// Insere un élément au rang indiqué
+void liste_inserer(Liste *l, Point p, int rang);
 
 // Retourne la taille d'une liste
 int liste_taille(Liste *l);

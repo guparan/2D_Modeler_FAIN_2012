@@ -12,7 +12,9 @@ static Polygone* polygone = NULL;
 static int mode_touche_c = BLANC;
 static ModeEdition mode_edition;
 
-int mode_suppr = 0;
+int mode_suppression = 0;
+int mode_insertion = 0;
+Point point_insertion = {-1,-1};
 
 
 void evenement_souris(int b,int s,int x,int y)
@@ -63,13 +65,6 @@ void evenement_boutonDroit(int x, int y, int fin_click)
         puts("relache");
         if(x0 == x && y0 == y) // si clic statique
         {
-            if(mode_suppr)
-            {
-                polygone_supprimerSommet(polygone, point(x, y));
-                polygone_dessiner(polygone, 1);
-                return;
-            }
-
             if(!polygone) // rien en mémoire
             {
                 polygone = polygone_creer();
@@ -90,8 +85,31 @@ void evenement_boutonDroit(int x, int y, int fin_click)
 
 void evenement_boutonGauche(int x, int y, int fin_click)
 {
-    if(fin_click) {
-        change_point(x,y,!val_point(x,y));
+//    if(fin_click) {
+//        change_point(x,y,!val_point(x,y));
+//    }
+    if(!fin_click) return;
+
+    if(mode_suppression)
+    {
+        polygone_supprimerSommet(polygone, point(x, y));
+        //polygone_dessiner(polygone, 1);
+        return;
+    }
+
+    if(mode_insertion)
+    {
+        if(!point_sontEgaux(point_insertion, point(-1,-1))) // clic sur point suivant
+        {
+            polygone_insererSommet(polygone, point_insertion, point(x, y));
+            point_insertion.x = -1;
+            point_insertion.y = -1;
+        }
+        else // clic sur point à insérer
+        {
+            point_insertion.x = x;
+            point_insertion.y = y;
+        }
     }
 }
 
@@ -134,7 +152,7 @@ void evenement_clavier(unsigned char touche, int x, int y)
 
     if(touche == 's')
     {
-        mode_suppr = (mode_suppr+1)%2;
+        mode_suppression = (mode_suppression+1)%2;
     }
     
     if (touche == 'a') {
@@ -151,5 +169,10 @@ void evenement_clavier(unsigned char touche, int x, int y)
     if (touche == 'e') {
         mode_edition = EDGE;
         puts("Programme en mode EDGE");
+    }
+
+    if (touche == 'i') // switch insertion mode
+    {
+        mode_insertion = (mode_insertion+1)%2;
     }
 }

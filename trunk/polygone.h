@@ -14,6 +14,7 @@ typedef struct {
 
 Polygone* polygone_creer();
 void polygone_ajouterSommet(Polygone* polygone, Point p, int liaison);
+void polygone_insererSommet(Polygone *polygone, Point p, Point suivant);
 void polygone_supprimerSommet(Polygone *polygone, Point p);
 void polygone_dessiner(Polygone* p, int clear);
 
