@@ -261,7 +261,7 @@ Point polygone_sommetLePlusProche(Polygone *polygone, Point p)
 
 Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
 {
-    double distance, distance_min, scalaire;
+    double distance, distance_min, scalaire, distancePointProjete;
     Maillon *sommet, *res;
     Droite d;
     
@@ -274,14 +274,15 @@ Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
     while (sommet) {
         if (sommet->suivant) {
             scalaire = (sommet->suivant->point.x - sommet->point.x)*(p.x - sommet->point.x) + (sommet->suivant->point.y - sommet->point.y)*(p.y - sommet->point.y);
+            distancePointProjete = scalaire / point_distance(sommet->point, sommet->suivant->point);
             
             // Si le projete orthogonal n'est pas sur le segment et se situe avant le premier point
-            if (scalaire < 0) {
+            if (distancePointProjete < 0) {
                 distance = point_distance(p, sommet->point);
             }
             
             // Si le projete orthogonal n'est pas sur le segment et se situe apres le deuxieme point
-            else if (scalaire > point_distance(sommet->point, sommet->suivant->point)) {
+            else if (distancePointProjete > point_distance(sommet->point, sommet->suivant->point)) {
                 distance = point_distance(p, sommet->suivant->point);
             }
             
