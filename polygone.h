@@ -20,6 +20,7 @@ void polygone_supprimerSommet(Polygone *polygone, Point p);
 void polygone_deplacerSommet(Polygone *polygone, Point p, Point direction);
 
 Maillon* polygone_sommet(Polygone *polygone, Point p);
+int polygone_rang(Polygone *polygone, Point p);
 
 Point polygone_sommetLePlusProche(Polygone *polygone, Point p);
 void polygone_dessiner(Polygone* p, int clear);
