@@ -9,6 +9,7 @@ typedef enum { APPEND, VERTEX, EDGE } ModeEdition;
  x et y representent les coordonnées du curseur de la souris
  les caractere touche correspond à la touche appuyee */
 void evenement_clavier(unsigned char touche, int x,int y);
+void evenement_clavierSpecial(int key, int x, int y);
 
 /* Actions à réaliser lorsqu'on clique */
 void evenement_souris(int b,int s,int x,int y);

@@ -29,7 +29,7 @@ void evenement_souris(int b,int s,int x,int y)
     {
         case GLUT_LEFT_BUTTON:
         {
-            evenement_boutonGauche(x2, y2, s==GLUT_DOWN);
+            evenement_boutonGauche(x2, y2, s!=GLUT_DOWN); // etrange
             break;
         }
         case GLUT_MIDDLE_BUTTON:
@@ -87,34 +87,53 @@ void evenement_boutonDroit(int x, int y, int fin_click)
 
 void evenement_boutonGauche(int x, int y, int fin_click)
 {
-    if(!fin_click) return;
+    static int x0,y0;
 
-    if(mode_suppression)
+    printf("clic gauche ");
+
+    if(!fin_click) // quand clic enfonce : on retient le départ
     {
-        polygone_supprimerSommet(polygone, point(x, y));
-        //polygone_dessiner(polygone, 1);
-        return;
+        puts("enfonce");
+        x0=x;
+        y0=y;
     }
 
-    else if(mode_insertion)
+    else
     {
-        if(!point_sontEgaux(point_insertion, point(-1,-1))) // clic sur point suivant
-        {
-            polygone_insererSommet(polygone, point_insertion, point(x, y));
-            point_insertion.x = -1;
-            point_insertion.y = -1;
-        }
-        else // clic sur point à insérer
-        {
-            point_insertion.x = x;
-            point_insertion.y = y;
-        }
-    }
+        puts("relache");
 
-    else // pas de mode
-    {
-        Point p = polygone_sommetLePlusProche(polygone, point(x,y));
-        change_point(p.x, p.y, (val_point(p.x, p.y)+1)%8);
+        if(mode_suppression)
+        {
+            polygone_supprimerSommet(polygone, point(x, y));
+            //polygone_dessiner(polygone, 1);
+            return;
+        }
+
+        else if(mode_insertion)
+        {
+            if(!point_sontEgaux(point_insertion, point(-1,-1))) // clic sur point suivant
+            {
+                polygone_insererSommet(polygone, point_insertion, point(x, y));
+                point_insertion.x = -1;
+                point_insertion.y = -1;
+            }
+            else // clic sur point à insérer
+            {
+                point_insertion.x = x;
+                point_insertion.y = y;
+            }
+        }
+
+        else // pas de mode
+        {
+            //Point p = polygone_sommetLePlusProche(polygone, point(x,y));
+            //change_point(p.x, p.y, (val_point(p.x, p.y)+1)%8);
+
+            if(polygone && !liste_estVide(polygone->sommets))
+            {
+                polygone_deplacerSommet(polygone, point(x0, y0), point(x, y));
+            }
+        }
     }
 }
 
@@ -188,5 +207,35 @@ void evenement_clavier(unsigned char touche, int x, int y)
     
     if (touche == 'o' && mode_edition == VERTEX) {
         polygone_selectionneSommetPrecedent(polygone);
+    }
+}
+
+void evenement_clavierSpecial(int key, int x, int y)
+{
+    switch(key)
+    {
+        case GLUT_KEY_PAGE_UP :
+            // ...
+            break;
+
+        case GLUT_KEY_PAGE_DOWN :
+            // ...
+            break;
+
+        case GLUT_KEY_UP :
+            // ...
+            break;
+
+        case GLUT_KEY_DOWN :
+            // ...
+            break;
+
+        case GLUT_KEY_LEFT :
+            // ...
+            break;
+
+        case GLUT_KEY_RIGHT :
+            // ...
+            break;
     }
 }
