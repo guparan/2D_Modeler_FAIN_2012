@@ -77,7 +77,9 @@ void evenement_boutonDroit(int x, int y, int fin_click)
         }
         else // si clic glissé
         {
+            change_point(x0, y0, VERT);
             segment_segmentBresenham(point(x0,y0), point(x,y), VERT);
+            change_point(x, y, VERT);
         }
     }
 }
