@@ -88,6 +88,7 @@ void evenement_boutonDroit(int x, int y, int fin_click)
 void evenement_boutonGauche(int x, int y, int fin_click)
 {
     static int x0,y0;
+    Maillon* tmp;
 
     printf("clic gauche ");
 
@@ -121,6 +122,14 @@ void evenement_boutonGauche(int x, int y, int fin_click)
             {
                 point_insertion.x = x;
                 point_insertion.y = y;
+            }
+        }
+        
+        else if (mode_edition == EDGE)
+        {
+            tmp = polygone_segmentLePlusProche(polygone, point(x, y));
+            if (tmp && tmp->suivant) {
+                segment_segmentBresenham(tmp->point, tmp->suivant->point, BLEU);
             }
         }
 
@@ -210,32 +219,45 @@ void evenement_clavier(unsigned char touche, int x, int y)
     }
 }
 
+
 void evenement_clavierSpecial(int key, int x, int y)
 {
     switch(key)
     {
         case GLUT_KEY_PAGE_UP :
-            // ...
+            if (mode_edition == VERTEX) {
+                polygone_selectionneSommetSuivant(polygone);
+            }
             break;
 
         case GLUT_KEY_PAGE_DOWN :
-            // ...
+            if (mode_edition == VERTEX) {
+                polygone_selectionneSommetPrecedent(polygone);
+            }
             break;
 
         case GLUT_KEY_UP :
-            // ...
+            if (mode_edition == VERTEX && polygone && polygone->pointCourant) {
+                polygone_deplacerSommet(polygone, polygone->pointCourant->point, point(polygone->pointCourant->point.x, polygone->pointCourant->point.y+1));
+            }
             break;
 
         case GLUT_KEY_DOWN :
-            // ...
+            if (mode_edition == VERTEX && polygone && polygone->pointCourant) {
+                polygone_deplacerSommet(polygone, polygone->pointCourant->point, point(polygone->pointCourant->point.x, polygone->pointCourant->point.y-1));
+            }
             break;
 
         case GLUT_KEY_LEFT :
-            // ...
+            if (mode_edition == VERTEX && polygone && polygone->pointCourant) {
+                polygone_deplacerSommet(polygone, polygone->pointCourant->point, point(polygone->pointCourant->point.x-1, polygone->pointCourant->point.y));
+            }
             break;
 
         case GLUT_KEY_RIGHT :
-            // ...
+            if (mode_edition == VERTEX && polygone && polygone->pointCourant) {
+                polygone_deplacerSommet(polygone, polygone->pointCourant->point, point(polygone->pointCourant->point.x+1, polygone->pointCourant->point.y));
+            }
             break;
     }
 }

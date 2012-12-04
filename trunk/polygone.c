@@ -2,6 +2,7 @@
 #include "polygone.h"
 #include "segment.h"
 #include "primitives.h"
+#include "droite.h"
 
 Polygone* polygone_creer()
 {
@@ -223,10 +224,12 @@ void polygone_selectionneSommetPrecedent(Polygone* polygone)
 
 void polygone_deselectionne(Polygone* polygone)
 {
-    if (polygone->pointCourant) {
+    if (polygone && polygone->pointCourant) {
         change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE);
+        polygone->pointCourant = NULL;
     }
 }
+
 
 
 Point polygone_sommetLePlusProche(Polygone *polygone, Point p)
@@ -256,10 +259,34 @@ Point polygone_sommetLePlusProche(Polygone *polygone, Point p)
 }
 
 
-
-
-
-
+Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
+{
+    double distance, distance_min;
+    Maillon *sommet, *res;
+    Droite d;
+    
+    if(!polygone || liste_estVide(polygone->sommets)) return NULL;
+    
+    distance_min = point_distance(p, polygone->sommets->tete->point);
+    res = polygone->sommets->tete;
+    
+    sommet = polygone->sommets->tete;
+    while (sommet) {
+        if (sommet->suivant) {
+            d = droite_obtenirEquation(sommet->point, sommet->suivant->point);
+            distance = droite_distancePointDroite(p, d);
+            
+            if(distance < distance_min)
+            {
+                distance_min = distance;
+                res = sommet;
+            }
+        }
+        sommet = sommet->suivant;
+    }
+    
+    return res;
+}
 
 
 
@@ -268,7 +295,7 @@ void polygone_remplirGraine(Point pgraine)
     int xgraine = pgraine.x, ygraine = pgraine.y;
     Couleur c = val_point(xgraine, ygraine);
     
-    if(c == BLANC || c == ROUGE ) return;
+    if(c != NOIR) return;
     
     if( xgraine < 0 || xgraine > hauteur_ecran() || ygraine < 0 || ygraine > largeur_ecran() )
     {
@@ -300,7 +327,7 @@ void polygone_remplirScanline(Polygone* p, Couleur couleur)
         interieur = 0;
         for (x = xmin; x < xmax; x++)
         {
-            if (val_point(x, y) == BLANC && val_point(x+1, y) == NOIR)
+            if (val_point(x, y) != NOIR && val_point(x+1, y) == NOIR)
             {
                 interieur = (interieur+1)%2;
                 entree.x = x+1;
@@ -344,19 +371,19 @@ void polygone_remplirScanline2(Polygone* p, Couleur couleur)
                 change_point(x, y, couleur);
                 deja_colorie = 1;
             }
-            else if (val_point(x, y) == BLANC && val_point(x+1, y) == BLANC)
+            else if (val_point(x, y) != NOIR && val_point(x+1, y) != NOIR)
             {
                 interieur = 1;
                 entree.x = x+1;
                 entree.y = y;
             }
-            else if (val_point(x, y) == BLANC && val_point(x+1, y) == NOIR && deja_colorie)
+            else if (val_point(x, y) != NOIR && val_point(x+1, y) == NOIR && deja_colorie)
             {
                 interieur = (interieur+1)%2;
                 entree.x = x+1;
                 entree.y = y;
             }
-            else if (val_point(x, y) == NOIR && val_point(x+1, y) == BLANC)
+            else if (val_point(x, y) == NOIR && val_point(x+1, y) != NOIR)
             {
                 interieur = 0;
             }
