@@ -9,6 +9,7 @@ typedef struct {
     Liste* sommets;
     Point pmin;
     Point pmax;
+    Maillon* pointCourant;
     int ferme;
 } Polygone;
 
@@ -19,7 +20,10 @@ void polygone_supprimerSommet(Polygone *polygone, Point p);
 Point polygone_sommetLePlusProche(Polygone *polygone, Point p);
 void polygone_dessiner(Polygone* p, int clear);
 
-void polygone_selectionneSommetSuivant();
+void polygone_selectionneSommetSuivant(Polygone* polygone);
+void polygone_selectionneSommetPrecedent(Polygone* polygone);
+void polygone_deselectionne(Polygone* polygone);
+
 
 void polygone_remplirGraine(Point pgraine);
 void polygone_remplirScanline(Polygone *p, Couleur couleur);

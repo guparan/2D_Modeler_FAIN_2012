@@ -149,7 +149,7 @@ void evenement_clavier(unsigned char touche, int x, int y)
         }
     }
     
-    if (touche == 'e') {
+    if (touche == 'n') {
         efface_tout();
         polygone_detruire(polygone);
         polygone = NULL; // indispensable
@@ -162,22 +162,31 @@ void evenement_clavier(unsigned char touche, int x, int y)
     
     if (touche == 'a') {
         mode_edition = APPEND;
+        polygone_deselectionne(polygone);
         puts("Prodramme en mode APPEND");
     }
     
     if (touche == 'v') {
         mode_edition = VERTEX;
-        //polygone_selectionneSommetSuivant();
         puts("Prodramme en mode VERTEX");
     }
     
     if (touche == 'e') {
         mode_edition = EDGE;
+        polygone_deselectionne(polygone);
         puts("Programme en mode EDGE");
     }
 
     if (touche == 'i') // switch insertion mode
     {
         mode_insertion = (mode_insertion+1)%2;
+    }
+    
+    if (touche == 'p' && mode_edition == VERTEX) {
+        polygone_selectionneSommetSuivant(polygone);
+    }
+    
+    if (touche == 'o' && mode_edition == VERTEX) {
+        polygone_selectionneSommetPrecedent(polygone);
     }
 }

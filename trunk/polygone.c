@@ -10,13 +10,14 @@ Polygone* polygone_creer()
     p->ferme = faux;
     p->pmin = point(-1, -1);
     p->pmax = point(-1, -1);
+    p->pointCourant = NULL;
     return p;
 }
 
 
 void polygone_detruire(Polygone *p)
 {
-    liste_detruireListe(p->sommets);
+    if (p) liste_detruireListe(p->sommets);
     free(p);
 }
 
@@ -135,9 +136,55 @@ void polygone_dessiner(Polygone* p, int clear)
 }
 
 
-void polygone_selectionneSommetSuivant()
+void polygone_selectionneSommetSuivant(Polygone* polygone)
 {
+    if (!polygone->pointCourant)    // S'il n'y a pas de point selectionne, on prend le premier
+    {
+        polygone->pointCourant = polygone->sommets->tete;
+    }
     
+    else
+    {
+        change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE); // Retablissement de la couleur du point courant
+        
+        if (polygone->pointCourant->suivant) {
+            polygone->pointCourant = polygone->pointCourant->suivant;
+        }
+        else polygone->pointCourant = polygone->sommets->tete;
+    }
+    
+    // Changement de la couleur du sommet selectionne
+    change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, BLEU);
+}
+
+
+void polygone_selectionneSommetPrecedent(Polygone* polygone)
+{
+    if (!polygone->pointCourant)    // S'il n'y a pas de point selectionne, on prend le dernier
+    {
+        polygone->pointCourant = polygone->sommets->queue;
+    }
+    
+    else
+    {
+        change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE); // Retablissement de la couleur du point courant
+        
+        if (polygone->pointCourant->precedent) {
+            polygone->pointCourant = polygone->pointCourant->precedent;
+        }
+        else polygone->pointCourant = polygone->sommets->queue;
+    }
+    
+    // Changement de la couleur du sommet selectionne
+    change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, BLEU);
+}
+
+
+void polygone_deselectionne(Polygone* polygone)
+{
+    if (polygone->pointCourant) {
+        change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE);
+    }
 }
 
 
