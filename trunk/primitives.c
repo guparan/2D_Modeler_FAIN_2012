@@ -140,6 +140,7 @@ int initPrimitives(int nargs, char **args)
 	glutReshapeFunc(reshape);
     glutMouseFunc(evenement_souris);
 	glutKeyboardFunc(evenement_clavier);
+    glutSpecialFunc(evenement_clavierSpecial);
 
 	glPointSize(TAILLE_PIXEL);
 	return 0;

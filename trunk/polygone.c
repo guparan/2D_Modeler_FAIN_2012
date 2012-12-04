@@ -120,6 +120,47 @@ void polygone_supprimerSommet(Polygone *polygone, Point p)
     polygone_dessiner(polygone, 1);
 }
 
+
+void polygone_deplacerSommet(Polygone *polygone, Point p, Point direction)
+{
+    Maillon* m = polygone_sommet(polygone, p);
+    if(!m) return;
+
+    m->point = direction;
+
+    polygone_dessiner(polygone, 1);
+}
+
+
+Maillon* polygone_sommet(Polygone *polygone, Point p)
+{
+    Maillon* m = polygone->sommets->tete;
+
+    /* Calcul du rang de p dans le polygone */
+    while(m)
+    {
+        if(point_sontEgaux(m->point, p)) return m;
+        m = m->suivant;
+    }
+    return NULL;
+}
+
+int polygone_rang(Polygone *polygone, Point p)
+{
+    Maillon* m = polygone->sommets->tete;
+    int rang = 0;
+
+    /* Calcul du rang de p dans le polygone */
+    while(m)
+    {
+        if(point_sontEgaux(m->point, p)) return rang;
+        m = m->suivant;
+        rang++;
+    }
+
+    return -1;
+}
+
 void polygone_dessiner(Polygone* p, int clear)
 {
     Maillon *sommet = p->sommets->tete;
