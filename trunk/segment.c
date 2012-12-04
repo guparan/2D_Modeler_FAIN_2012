@@ -69,12 +69,12 @@ void segment_tracerSegmentVertical(Point A, Point B, Couleur couleur) {
     //printf("Trace le segment vertical : (%d, %d), (%d,%d)\n", A.x, A.y, B.x, B.y);
     
     if (A.y<B.y) {
-        for (y = A.y; y < B.y+1; y++) {
+        for (y = A.y+1; y < B.y; y++) {
             change_point(A.x, y, couleur);
         }
     }
     else {
-        for (y = A.y; y > B.y-1; y--) {
+        for (y = A.y-1; y > B.y; y--) {
             change_point(A.x, y, couleur);
         }
     }
@@ -87,12 +87,12 @@ void segment_tracerSegmentHorizontal(Point A, Point B, Couleur couleur) {
     printf("Trace le segment horizontal : (%d, %d), (%d,%d)\n", A.x, A.y, B.x, B.y);
     
     if (A.x < B.x) {
-        for (x = A.x; x < B.x+1; x++) {
+        for (x = A.x+1; x < B.x; x++) {
             change_point(x, A.y, couleur);
         }
     }
     else {
-        for (x = A.x; x > B.x-1; x--) {
+        for (x = A.x-1; x > B.x; x--) {
             change_point(x, A.y, couleur);
         }
     }
