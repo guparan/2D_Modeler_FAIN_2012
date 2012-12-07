@@ -36,6 +36,10 @@ void polygone_selectionneSommetSuivant(Polygone* polygone);
 void polygone_selectionneSommetPrecedent(Polygone* polygone);
 void polygone_deselectionne(Polygone* polygone);
 
+/* Mode Edge */
+void polygone_selectionneAreteSuivante(Polygone* polygone);
+void polygone_selectionneAretePrecedente(Polygone* polygone);
+
 /* Remplissage d'un polygone */
 void polygone_remplirGraine(Point pgraine);
 void polygone_remplirScanline(Polygone *p, Couleur couleur);
