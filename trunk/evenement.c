@@ -88,7 +88,6 @@ void evenement_boutonDroit(int x, int y, int fin_click)
 void evenement_boutonGauche(int x, int y, int fin_click)
 {
     static int x0,y0;
-    Maillon* tmp;
 
     printf("clic gauche ");
 
@@ -126,9 +125,12 @@ void evenement_boutonGauche(int x, int y, int fin_click)
         
         else if (mode_edition == EDGE)
         {
-            tmp = polygone_segmentLePlusProche(polygone, point(x, y));
-            if (tmp && tmp->suivant) {
-                segment_segmentBresenham(tmp->point, tmp->suivant->point, BLEU);
+            if (polygone->pointCourant && polygone->pointCourant->suivant) {
+                segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLANC);
+            }
+            polygone->pointCourant = polygone_segmentLePlusProche(polygone, point(x, y));
+            if (polygone->pointCourant && polygone->pointCourant->suivant) {
+                segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLEU);
             }
         }
 
@@ -189,18 +191,20 @@ void evenement_clavier(unsigned char touche, int x, int y)
     
     if (touche == 'a') {
         mode_edition = APPEND;
-        polygone_deselectionne(polygone);
+        polygone_deselectionneSommet(polygone);
+        polygone_deselectionneArete(polygone);
         puts("Prodramme en mode APPEND");
     }
     
     if (touche == 'v') {
         mode_edition = VERTEX;
+        polygone_deselectionneArete(polygone);
         puts("Prodramme en mode VERTEX");
     }
     
     if (touche == 'e') {
         mode_edition = EDGE;
-        polygone_deselectionne(polygone);
+        polygone_deselectionneSommet(polygone);
         puts("Programme en mode EDGE");
     }
 
