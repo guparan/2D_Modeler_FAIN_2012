@@ -15,9 +15,7 @@ Liste *liste_creer()
 void liste_detruireListe(Liste* l)
 {
     liste_detruireListeMaillons(l->tete);
-    printf("queue : %p\n", l->queue);
     free(l);
-    //l=NULL;
 }
 
 
@@ -27,7 +25,6 @@ void liste_detruireListeMaillons(Maillon* m)
     liste_detruireListeMaillons(m->suivant);
     printf("Destruction du maillon : %d, %d\n", m->point.x, m->point.y);
     free(m);
-    //m=NULL;
 }
 
 void liste_supprimer(Liste* l, Maillon* m)

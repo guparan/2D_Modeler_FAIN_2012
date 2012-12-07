@@ -2,24 +2,22 @@
 #include "evenement.h"
 
 
-/* TODO : virer cette merde */
-    static int TAILLE_PIXEL=10;
-    static int reshape_deja_lance=0;
-    static Couleur image[MAXX][MAXY];
+static int TAILLE_PIXEL=7;
+static int reshape_deja_lance=0;
+static Couleur image[MAXX][MAXY];
 
-    static struct{	unsigned char r,g,b;} couleurs[]=
-    {
-      {  0,  0,  0},/* NOIR    */
-      {255,255,255},/* BLANC   */
-      {255,  0,  0},/* ROUGE   */
-      {  0,255,  0},/* VERT    */
-      {  0,  0,255},/* BLEU    */
-      {255,255,  0},/* JAUNE   */
-      {255,  0,255},/* MAGENTA */
-      {  0,255,255},/* CYAN    */
-      {128,128,128},/* GRIS    */
-    };
-/* FIN TODO */
+static struct{	unsigned char r,g,b;} couleurs[]=
+{
+  {  0,  0,  0},/* NOIR    */
+  {255,255,255},/* BLANC   */
+  {255,  0,  0},/* ROUGE   */
+  {  0,255,  0},/* VERT    */
+  {  0,  0,255},/* BLEU    */
+  {255,255,  0},/* JAUNE   */
+  {255,  0,255},/* MAGENTA */
+  {  0,255,255},/* CYAN    */
+  {128,128,128},/* GRIS    */
+};
 
 
 //-----------------------------------------------------------------

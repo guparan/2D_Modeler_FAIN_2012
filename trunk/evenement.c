@@ -9,17 +9,14 @@
 
 static Polygone* polygone = NULL;
 
-static int mode_touche_c = BLANC;
 static ModeEdition mode_edition;
 
-int mode_suppression = 0;
-int mode_insertion = 0;
 Point point_insertion = {-1,-1};
 
 
 void evenement_souris(int b,int s,int x,int y)
 {
-    int TAILLE_PIXEL = 10;
+    int TAILLE_PIXEL = 7;
     int x2=x/TAILLE_PIXEL;
     int height = glutGet(GLUT_WINDOW_HEIGHT);
     int y2=(height-1-y)/TAILLE_PIXEL;
@@ -63,23 +60,25 @@ void evenement_boutonDroit(int x, int y, int fin_click)
     else // quand clic relaché
     {
         puts("relache");
+
         if(x0 == x && y0 == y) // si clic statique
         {
-            if(!polygone) // rien en mémoire
-            {
-                polygone = polygone_creer();
-                polygone_ajouterSommet(polygone, point(x, y), 0);
-            }
-            else // pour tout autre clic
-            {
-                polygone_ajouterSommet(polygone, point(x, y), 1);
-            }
+
         }
+
         else // si clic glissé
         {
             change_point(x0, y0, VERT);
             segment_segmentBresenham(point(x0,y0), point(x,y), VERT);
             change_point(x, y, VERT);
+
+            if(mode_edition == VERTEX) // si clic statique
+            {
+                if(polygone && !liste_estVide(polygone->sommets))
+                {
+                    polygone_deplacerSommet(polygone, point(x0, y0), point(x, y));
+                }
+            }
         }
     }
 }
@@ -101,48 +100,57 @@ void evenement_boutonGauche(int x, int y, int fin_click)
     else
     {
         puts("relache");
+        Point p;
 
-        if(mode_suppression)
+        switch(mode_edition)
         {
-            polygone_supprimerSommet(polygone, point(x, y));
-            return;
-        }
+            case INSERT :
+                if(!point_sontEgaux(point_insertion, point(-1,-1))) // clic sur point suivant
+                {
+                    polygone_insererSommet(polygone, point_insertion, point(x, y));
+                    point_insertion.x = -1;
+                    point_insertion.y = -1;
+                }
+                else // clic sur point à insérer
+                {
+                    point_insertion.x = x;
+                    point_insertion.y = y;
+                }
+                break;
 
-        else if(mode_insertion)
-        {
-            if(!point_sontEgaux(point_insertion, point(-1,-1))) // clic sur point suivant
-            {
-                polygone_insererSommet(polygone, point_insertion, point(x, y));
-                point_insertion.x = -1;
-                point_insertion.y = -1;
-            }
-            else // clic sur point à insérer
-            {
-                point_insertion.x = x;
-                point_insertion.y = y;
-            }
-        }
-        
-        else if (mode_edition == EDGE)
-        {
-            if (polygone->pointCourant && polygone->pointCourant->suivant) {
-                segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLANC);
-            }
-            polygone->pointCourant = polygone_segmentLePlusProche(polygone, point(x, y));
-            if (polygone->pointCourant && polygone->pointCourant->suivant) {
-                segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLEU);
-            }
-        }
+            case EDGE :
+                if (polygone->pointCourant && polygone->pointCourant->suivant) {
+                    segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLANC);
+                }
+                polygone->pointCourant = polygone_segmentLePlusProche(polygone, point(x, y));
+                if (polygone->pointCourant && polygone->pointCourant->suivant) {
+                    segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLEU);
+                }
+                break;
 
-        else // pas de mode
-        {
-            //Point p = polygone_sommetLePlusProche(polygone, point(x,y));
-            //change_point(p.x, p.y, (val_point(p.x, p.y)+1)%8);
+            case VERTEX :
+                if(polygone && polygone->pointCourant) // re-init du point courant
+                {
+                    change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE);
+                }
+                p = polygone_sommetLePlusProche(polygone, point(x,y));
+                change_point(p.x, p.y, VERT);
+                break;
 
-            if(polygone && !liste_estVide(polygone->sommets))
-            {
-                polygone_deplacerSommet(polygone, point(x0, y0), point(x, y));
-            }
+            case APPEND :
+                if(x0 == x && y0 == y) // si clic statique
+                {
+                    if(!polygone) // rien en mémoire
+                    {
+                        polygone = polygone_creer();
+                        polygone_ajouterSommet(polygone, point(x, y), 0);
+                    }
+                    else // pour tout autre clic
+                    {
+                        polygone_ajouterSommet(polygone, point(x, y), 1);
+                    }
+                }
+                break;
         }
     }
 }
@@ -162,63 +170,63 @@ void evenement_clavier(unsigned char touche, int x, int y)
         polygone_remplirScanline(polygone, ROUGE);
     }
 
-    if(touche == 'c' && polygone && liste_taille(polygone->sommets)>2) // tracé du polygone avec au moins 3 sommets
+    else if(touche == 'c' && polygone && liste_taille(polygone->sommets)>2) // tracé du polygone avec au moins 3 sommets
     {
-        if(mode_touche_c == BLANC)
+        if(!polygone->ferme)
         {
             segment_segmentBresenham(polygone->sommets->queue->point, polygone->sommets->tete->point, BLANC);
             polygone->ferme = 1;
-            mode_touche_c = NOIR;
         }
         else
         {
             segment_segmentBresenham(polygone->sommets->queue->point, polygone->sommets->tete->point, NOIR);
             polygone->ferme = 0;
-            mode_touche_c = BLANC;
         }
     }
     
-    if (touche == 'n') {
+    else if (touche == 'n') {
         efface_tout();
         polygone_detruire(polygone);
         polygone = NULL; // indispensable
     }
-
-    if(touche == 's')
-    {
-        mode_suppression = (mode_suppression+1)%2;
-    }
     
-    if (touche == 'a') {
+    else if (touche == 'a') {
         mode_edition = APPEND;
         polygone_deselectionneSommet(polygone);
         polygone_deselectionneArete(polygone);
         puts("Prodramme en mode APPEND");
     }
     
-    if (touche == 'v') {
+    else if (touche == 'v') {
         mode_edition = VERTEX;
         polygone_deselectionneArete(polygone);
         puts("Prodramme en mode VERTEX");
     }
     
-    if (touche == 'e') {
+    else if (touche == 'e') {
         mode_edition = EDGE;
         polygone_deselectionneSommet(polygone);
         puts("Programme en mode EDGE");
     }
 
-    if (touche == 'i') // switch insertion mode
+    else if (touche == 'i') // switch insertion mode
     {
-        mode_insertion = (mode_insertion+1)%2;
+        mode_edition = INSERT;
+        polygone_deselectionneSommet(polygone);
+        polygone_deselectionneArete(polygone);
+        puts("Programme en mode INSERT");
     }
     
-    if (touche == 'p' && mode_edition == VERTEX) {
+    else if (touche == 'p' && mode_edition == VERTEX) {
         polygone_selectionneSommetSuivant(polygone);
     }
     
-    if (touche == 'o' && mode_edition == VERTEX) {
+    else if (touche == 'o' && mode_edition == VERTEX) {
         polygone_selectionneSommetPrecedent(polygone);
+    }
+
+    else if (touche == 127 && mode_edition == VERTEX && polygone && polygone->pointCourant) {
+        polygone_supprimerSommet(polygone, polygone->pointCourant->point);
     }
 }
 
