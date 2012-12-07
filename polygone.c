@@ -406,7 +406,7 @@ void polygone_remplirScanline(Polygone* p, Couleur couleur)
             if (val_point(x, y) != NOIR && val_point(x+1, y) == NOIR)
             {
                 interieur = (interieur+1)%2;
-                entree.x = x+1;
+                entree.x = x;
                 entree.y = y;
             }
             else if (val_point(x, y) == NOIR && interieur)
@@ -456,7 +456,7 @@ void polygone_remplirScanline2(Polygone* p, Couleur couleur)
             else if (val_point(x, y) != NOIR && val_point(x+1, y) == NOIR && deja_colorie)
             {
                 interieur = (interieur+1)%2;
-                entree.x = x+1;
+                entree.x = x;
                 entree.y = y;
             }
             else if (val_point(x, y) == NOIR && val_point(x+1, y) != NOIR)
