@@ -24,6 +24,6 @@ Droite droite_obtenirEquation(Point p1, Point p2)
 double droite_distancePointDroite(Point p, Droite d)
 {
     double numerateur = abs(d.a*p.x + d.b*p.y + d.c);
-    double denominateur = sqrt(d.a^2 + d.b^2);
+    double denominateur = sqrt(pow(d.a,2) + pow(d.b,2));
     return (numerateur/denominateur);
 }
