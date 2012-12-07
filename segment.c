@@ -108,13 +108,13 @@ void segment_tracerSegmentLimite(Point A, Point B, Couleur couleur)
     
     if (A.x < B.x) {
         if (A.y < B.y) {
-            for (i = 0; i < d+1; i++) {
+            for (i = 1; i < d; i++) {
                 change_point(A.x+i, A.y+i, couleur);
             }
         }
         
         if (A.y > B.y) {
-            for (i = 0; i < d+1; i++) {
+            for (i = 1; i < d; i++) {
                 change_point(A.x+i, A.y-i, couleur);
             }
         }
@@ -122,13 +122,13 @@ void segment_tracerSegmentLimite(Point A, Point B, Couleur couleur)
     
     else {
         if (A.y < B.y) {
-            for (i = 0; i < d+1; i++) {
+            for (i = 1; i < d; i++) {
                 change_point(A.x-i, A.y+i, couleur);
             }
         }
         
         if (A.y > B.y) {
-            for (i = 0; i < d+1; i++) {
+            for (i = 1; i < d; i++) {
                 change_point(A.x-i, A.y-i, couleur);
             }
         }
