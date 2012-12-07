@@ -127,6 +127,26 @@ void polygone_deplacerSommet(Polygone *polygone, Point p, Point direction)
     Maillon* m = polygone_sommet(polygone, p);
     if(!m) return;
 
+    /* Traitement graphique léger mais sale */
+//    change_point(p.x, p.y, NOIR);
+//    if(liste_estVide(polygone->sommets)) return;
+//    if(m != polygone->sommets->tete)
+//    {
+//        segment_segmentBresenham(m->precedent->point, p, NOIR); // suppression arete
+//        segment_segmentBresenham(sommet->precedent->point, p, BLANC);
+//        //        segment_segmentBresenham(sommet->precedent->point, sommet->point, NOIR);
+//        //    }
+//        //    segment_segmentBresenham(p, sommet->point, BLANC);
+//    }
+//    if(m != polygone->sommets->queue)
+//    {
+//        segment_segmentBresenham(p, m->suivant->point, NOIR);
+//    }
+//    if(m != polygone->sommets->tete && m != polygone->sommets->queue)
+//    {
+//        segment_segmentBresenham(m->precedent->point, m->suivant->point, BLANC);
+//    }
+
     m->point = direction;
 
     polygone_dessiner(polygone, 1);
@@ -222,6 +242,37 @@ void polygone_selectionneSommetPrecedent(Polygone* polygone)
 }
 
 
+void polygone_selectionneAreteSuivante(Polygone* polygone)
+{
+    if(polygone->pointCourant && polygone->pointCourant->suivant) // on efface le sommet precedemment selectionne
+    {
+        segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLANC);
+    }
+    polygone_selectionneSommetSuivant(polygone);
+    change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE);
+    //change_point(polygone->pointCourant->suivant->point.x, polygone->pointCourant->suivant->point.y, BLEU);
+    if(polygone->pointCourant->suivant)
+    {
+        segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, VERT);
+    }
+}
+
+void polygone_selectionneAretePrecedente(Polygone* polygone)
+{
+    if(polygone->pointCourant && polygone->pointCourant->suivant) // on efface le segment precedemment selectionne
+    {
+        segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLANC);
+    }
+    polygone_selectionneSommetPrecedent(polygone);
+    change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE);
+    //change_point(polygone->pointCourant->suivant->point.x, polygone->pointCourant->suivant->point.y, BLEU);
+    if(polygone->pointCourant->suivant)
+    {
+        segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, VERT);
+    }
+}
+
+
 void polygone_deselectionne(Polygone* polygone)
 {
     if (polygone && polygone->pointCourant) {
@@ -261,7 +312,7 @@ Point polygone_sommetLePlusProche(Polygone *polygone, Point p)
 
 Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
 {
-    double distance, distance_min, scalaire, distancePointProjete;
+    double distance, distance_min, scalaire1, scalaire2;
     Maillon *sommet, *res;
     Droite d;
     
@@ -273,16 +324,16 @@ Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
     sommet = polygone->sommets->tete;
     while (sommet) {
         if (sommet->suivant) {
-            scalaire = (sommet->suivant->point.x - sommet->point.x)*(p.x - sommet->point.x) + (sommet->suivant->point.y - sommet->point.y)*(p.y - sommet->point.y);
-            distancePointProjete = scalaire / point_distance(sommet->point, sommet->suivant->point);
-            
+            scalaire1 = (sommet->suivant->point.x - sommet->point.x)*(p.x - sommet->point.x) + (sommet->suivant->point.y - sommet->point.y)*(p.y - sommet->point.y);
+            scalaire2 = (sommet->point.x - sommet->suivant->point.x)*(p.x - sommet->suivant->point.x)+(sommet->point.y - sommet->suivant->point.y)*(p.y - sommet->suivant->point.y);
+
             // Si le projete orthogonal n'est pas sur le segment et se situe avant le premier point
-            if (distancePointProjete < 0) {
+            if (scalaire1 < 0) {
                 distance = point_distance(p, sommet->point);
             }
             
             // Si le projete orthogonal n'est pas sur le segment et se situe apres le deuxieme point
-            else if (distancePointProjete > point_distance(sommet->point, sommet->suivant->point)) {
+            else if (scalaire2 < 0) {
                 distance = point_distance(p, sommet->suivant->point);
             }
             

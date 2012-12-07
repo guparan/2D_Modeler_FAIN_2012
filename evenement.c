@@ -106,7 +106,6 @@ void evenement_boutonGauche(int x, int y, int fin_click)
         if(mode_suppression)
         {
             polygone_supprimerSommet(polygone, point(x, y));
-            //polygone_dessiner(polygone, 1);
             return;
         }
 
@@ -228,11 +227,19 @@ void evenement_clavierSpecial(int key, int x, int y)
             if (mode_edition == VERTEX) {
                 polygone_selectionneSommetSuivant(polygone);
             }
+            else if (mode_edition == EDGE)
+            {
+                polygone_selectionneAreteSuivante(polygone);
+            }
             break;
 
         case GLUT_KEY_PAGE_DOWN :
             if (mode_edition == VERTEX) {
                 polygone_selectionneSommetPrecedent(polygone);
+            }
+            else if (mode_edition == EDGE)
+            {
+                polygone_selectionneAretePrecedente(polygone);
             }
             break;
 
