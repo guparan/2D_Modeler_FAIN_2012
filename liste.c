@@ -116,6 +116,7 @@ void liste_ajouter(Liste *l, Point p)
     }
 }
 
+
 void liste_inserer(Liste *l, Point p, int rang)
 {
     int n = 0;

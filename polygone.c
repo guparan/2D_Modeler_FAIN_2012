@@ -273,7 +273,7 @@ void polygone_selectionneAretePrecedente(Polygone* polygone)
 }
 
 
-void polygone_deselectionne(Polygone* polygone)
+void polygone_deselectionneSommet(Polygone* polygone)
 {
     if (polygone && polygone->pointCourant) {
         change_point(polygone->pointCourant->point.x, polygone->pointCourant->point.y, JAUNE);
@@ -355,6 +355,14 @@ Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
     return res;
 }
 
+
+void polygone_deselectionneArete(Polygone* polygone)
+{
+    if (polygone && polygone->pointCourant && polygone->pointCourant->suivant) {
+        segment_segmentBresenham(polygone->pointCourant->point, polygone->pointCourant->suivant->point, BLANC);
+        polygone->pointCourant = NULL;
+    }
+}
 
 
 void polygone_remplirGraine(Point pgraine)
