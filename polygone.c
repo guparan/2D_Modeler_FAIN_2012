@@ -329,11 +329,13 @@ Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
 
             // Si le projete orthogonal n'est pas sur le segment et se situe avant le premier point
             if (scalaire1 < 0) {
+               // printf("(%d,%d:%d,%d).(%d,%d:%d,%d) negatif\n", sommet->point.x, sommet->point.y, sommet->suivant->point.x, sommet->suivant->point.y, sommet->point.x, sommet->point.y, p.x, p.y);
                 distance = point_distance(p, sommet->point);
             }
             
             // Si le projete orthogonal n'est pas sur le segment et se situe apres le deuxieme point
             else if (scalaire2 < 0) {
+               // printf("(%d,%d:%d,%d).(%d,%d:%d,%d) negatif\n", sommet->suivant->point.x, sommet->suivant->point.y, sommet->point.x, sommet->point.y,  sommet->suivant->point.x, sommet->suivant->point.y, p.x, p.y);
                 distance = point_distance(p, sommet->suivant->point);
             }
             
@@ -342,6 +344,7 @@ Maillon* polygone_segmentLePlusProche(Polygone *polygone, Point p)
                 d = droite_obtenirEquation(sommet->point, sommet->suivant->point);
                 distance = droite_distancePointDroite(p, d);
             }
+            printf("distance = %f\n", distance);
             
             if(distance < distance_min)
             {
